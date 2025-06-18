@@ -1,4 +1,4 @@
-package com.example.AdmComercio.dto;
+package com.AppVenta.dto;
 
 import java.time.LocalDate;
 import java.util.List;

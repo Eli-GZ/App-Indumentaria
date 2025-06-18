@@ -1,13 +1,13 @@
-package com.example.AdmComercio.controller;
+package com.AppVenta.controller;
 
-import com.example.AdmComercio.dto.TotalVentaDTO;
-import com.example.AdmComercio.dto.VentaDTO;
-import com.example.AdmComercio.model.Cliente;
-import com.example.AdmComercio.model.Producto;
-import com.example.AdmComercio.model.Venta;
-import com.example.AdmComercio.service.IClienteService;
-import com.example.AdmComercio.service.IProductoService;
-import com.example.AdmComercio.service.IVentaService;
+import com.AppVenta.dto.TotalVentaDTO;
+import com.AppVenta.dto.VentaDTO;
+import com.AppVenta.model.Cliente;
+import com.AppVenta.model.Producto;
+import com.AppVenta.model.Venta;
+import com.AppVenta.service.IClienteService;
+import com.AppVenta.service.IProductoService;
+import com.AppVenta.service.IVentaService;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;

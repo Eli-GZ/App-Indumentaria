@@ -1,7 +1,7 @@
-package com.example.AdmComercio.controller;
+package com.AppVenta.controller;
 
-import com.example.AdmComercio.model.Cliente;
-import com.example.AdmComercio.service.IClienteService;
+import com.AppVenta.model.Cliente;
+import com.AppVenta.service.IClienteService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

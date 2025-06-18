@@ -1,4 +1,4 @@
-package com.example.AdmComercio.dto;
+package com.AppVenta.dto;
 
 import java.util.List;
 import lombok.Getter;

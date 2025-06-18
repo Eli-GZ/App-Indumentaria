@@ -1,6 +1,6 @@
-package com.example.AdmComercio.repository;
+package com.AppVenta.repository;
 
-import com.example.AdmComercio.model.Venta;
+import com.AppVenta.model.Venta;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

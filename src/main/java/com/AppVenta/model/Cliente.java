@@ -1,14 +1,18 @@
-package com.example.AdmComercio.model;
+package com.AppVenta.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Cliente {
 
@@ -19,16 +23,5 @@ public class Cliente {
     private String apellido;
     private String dni;
 
-    public Cliente() {
-    }
-
-    public Cliente(Long id_cliente, String nombre, String apellido, String dni) {
-        this.id_cliente = id_cliente;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
-    }
-    
-    
 
 }

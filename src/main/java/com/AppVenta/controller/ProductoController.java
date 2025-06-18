@@ -1,22 +1,26 @@
-package com.example.AdmComercio.controller;
+package com.AppVenta.controller;
 
-import com.example.AdmComercio.model.Producto;
-import com.example.AdmComercio.model.Venta;
-import com.example.AdmComercio.service.IProductoService;
-import com.example.AdmComercio.service.IVentaService;
+import com.AppVenta.model.Producto;
+import com.AppVenta.model.Venta;
+import com.AppVenta.service.IProductoService;
+import com.AppVenta.service.IVentaService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("app-venta")
+@CrossOrigin(value = "http://localhost:3000")
 public class ProductoController {
 
     @Autowired

@@ -1,8 +1,8 @@
-package com.example.AdmComercio.service;
+package com.AppVenta.service;
 
-import com.example.AdmComercio.model.Cliente;
-import com.example.AdmComercio.model.Producto;
-import com.example.AdmComercio.model.Venta;
+import com.AppVenta.model.Cliente;
+import com.AppVenta.model.Producto;
+import com.AppVenta.model.Venta;
 import java.time.LocalDate;
 import java.util.List;
 

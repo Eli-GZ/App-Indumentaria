@@ -1,7 +1,7 @@
-package com.example.AdmComercio.service;
+package com.AppVenta.service;
 
-import com.example.AdmComercio.model.Producto;
-import com.example.AdmComercio.repository.IProductoRepository;
+import com.AppVenta.model.Producto;
+import com.AppVenta.repository.IProductoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +35,12 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public void editProducto(Long codigo_producto, String nombreNuevo, String marcaNueva, Double costoNuevo, Double NuevaCantidad_disponible) {
+    public void editProducto(Long codigo_producto, String nombreNuevo, String talleNuevo, Double costoNuevo, Double NuevaCantidad_disponible) {
         Producto produ = this.findProducto(codigo_producto);
 
         //proceso de modificacion a nivel logico
         produ.setNombre(nombreNuevo);
-        produ.setMarca(marcaNueva);
+        produ.setTalle(talleNuevo);
         produ.setCosto(costoNuevo);
         produ.setCantidad_disponible(NuevaCantidad_disponible);
 

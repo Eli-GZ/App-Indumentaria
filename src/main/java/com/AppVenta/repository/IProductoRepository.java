@@ -1,7 +1,7 @@
 
-package com.example.AdmComercio.repository;
+package com.AppVenta.repository;
 
-import com.example.AdmComercio.model.Producto;
+import com.AppVenta.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

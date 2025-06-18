@@ -1,7 +1,7 @@
-package com.example.AdmComercio.service;
+package com.AppVenta.service;
 
-import com.example.AdmComercio.model.Cliente;
-import com.example.AdmComercio.repository.IClienteRepository;
+import com.AppVenta.model.Cliente;
+import com.AppVenta.repository.IClienteRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

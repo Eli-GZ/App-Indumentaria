@@ -1,7 +1,7 @@
 
-package com.example.AdmComercio.service;
+package com.AppVenta.service;
 
-import com.example.AdmComercio.model.Cliente;
+import com.AppVenta.model.Cliente;
 import java.util.List;
 
 
