@@ -32,25 +32,6 @@ public class ProductoService implements IProductoService {
     public Producto findProducto(Long codigo_producto) {
         Producto produ = ProduRepo.findById(codigo_producto).orElse(null);
         return produ;
-    }
-
-    @Override
-    public void editProducto(Long codigo_producto, String nombreNuevo, String talleNuevo, Double costoNuevo, Double NuevaCantidad_disponible) {
-        Producto produ = this.findProducto(codigo_producto);
-
-        //proceso de modificacion a nivel logico
-        produ.setNombre(nombreNuevo);
-        produ.setTalle(talleNuevo);
-        produ.setCosto(costoNuevo);
-        produ.setCantidad_disponible(NuevaCantidad_disponible);
-
-        //guardar cambios
-        this.saveProducto(produ);
-    }
-
-    @Override
-    public void editProducto(Producto produ) {
-        this.saveProducto(produ);
-    }
+    }     
 
 }

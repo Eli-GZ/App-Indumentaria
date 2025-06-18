@@ -23,7 +23,6 @@ public class Producto {
     private String nombre;
     private String talle;
     private Double costo;
-    private Double cantidad_disponible;
-    
+    private Double cantidad_disponible;    
 
 }

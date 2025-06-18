@@ -18,9 +18,5 @@ public interface IProductoService {
 
     //Encontrar un producto
     public Producto findProducto(Long codigo_producto);
-
-    //Editar persona
-    public void editProducto(Long codigo_producto, String nombreNuevo, String marcaNueva, Double costoNuevo, Double NuevaCantidad_disponible);
-
-    public void editProducto(Producto produ);
+    
 }

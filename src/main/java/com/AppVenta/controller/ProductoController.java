@@ -1,5 +1,6 @@
 package com.AppVenta.controller;
 
+import com.AppVenta.exception.NoEncontradoExcepcion;
 import com.AppVenta.model.Producto;
 import com.AppVenta.model.Venta;
 import com.AppVenta.service.IProductoService;
@@ -7,6 +8,7 @@ import com.AppVenta.service.IVentaService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +30,15 @@ public class ProductoController {
     @Autowired
     private IVentaService ventaServ;
 
-    //ENDPOINT para crear un nuevo producto
-    @PostMapping("/productos/crear")
-    public String createProducto(@RequestBody Producto produc) {
-        producServ.saveProducto(produc);
-        //mensaje de creacion correcta
-        return "El producto fue creado correctamente";
+    //ENDPOINT para obtener un producto
+    @GetMapping("/productos/{codigo_producto}")
+    public ResponseEntity<Producto> getProducto(@PathVariable Long codigo_producto) {
+        Producto produ = producServ.findProducto(codigo_producto);
+        //Corroborar que el producto exista
+        if (produ == null) {
+            throw new NoEncontradoExcepcion("No se encontró el codigo del producto: " + codigo_producto);
+        }
+        return ResponseEntity.ok(produ);
     }
 
     //ENDPOINT para obtener todos los productos
@@ -42,10 +47,12 @@ public class ProductoController {
         return producServ.getProductos();
     }
 
-    //ENDPOINT para obtener un producto
-    @GetMapping("/productos/{codigo_producto}")
-    public Producto getProducto(@PathVariable Long codigo_producto) {
-        return producServ.findProducto(codigo_producto);
+    //ENDPOINT para crear un nuevo producto
+    @PostMapping("/productos/crear")
+    public String createProducto(@RequestBody Producto produc) {
+        producServ.saveProducto(produc);
+        //mensaje de creacion correcta
+        return "El producto fue creado correctamente";
     }
 
     //ENDPOINT para eliminar un producto
@@ -62,42 +69,27 @@ public class ProductoController {
         } else {
             return "No se encontro el codigo del producto";
         }
-
     }
 
     //ENDPOINT para modificar una producto
     @PutMapping("/productos/editar/{codigo_producto}")
-    public Producto editProducto(@PathVariable Long codigo_producto,
-            @RequestParam(required = false, name = "nombre") String nombreNuevo,
-            @RequestParam(required = false, name = "marca") String marcaNueva,
-            @RequestParam(required = false, name = "costo") Double costoNuevo,
-            @RequestParam(required = false, name = "cantidad") Double NuevaCantidad_disponible) {
+    public ResponseEntity<Producto> editProducto(@PathVariable Long codigo_producto,
+            @RequestBody Producto produRecibido) {
 
-        //Envio nuevos datos para modificar
-        producServ.editProducto(codigo_producto, nombreNuevo, marcaNueva, costoNuevo, NuevaCantidad_disponible);
-
-        //busco la persoan editada para mostrarla
+        //busco el producto editado para mostrar
         Producto produ = producServ.findProducto(codigo_producto);
-
-        //Actualizacion del total
-        List<Venta> ventasConProducto = ventaServ.getVentasConProducto(codigo_producto);
-
-        for (Venta venta : ventasConProducto) {
-            double nuevoTotal = venta.getListaProductos().stream()
-                    .mapToDouble(p -> p.getCosto() != null ? p.getCosto() : 0.0)
-                    .sum();
-
-            venta.setTotal(nuevoTotal);
-            ventaServ.saveVenta(venta); // actualiza en BD
+        //Corroborar que el producto exista
+        if (produ == null) {
+            throw new NoEncontradoExcepcion("No se encontró el codigo del producto: " + codigo_producto);
         }
+        //Envio nuevos datos para modificar
+        produ.setNombre(produRecibido.getNombre());
+        produ.setTalle(produRecibido.getTalle());
+        produ.setCantidad_disponible(produRecibido.getCantidad_disponible());
+        produ.setCosto(produRecibido.getCosto());
+        producServ.saveProducto(produ);
 
-        return produ;
-    }
-
-    @PutMapping("/productos/editar")
-    public Producto editProducto(@RequestBody Producto produ) {
-        producServ.editProducto(produ);
-        return producServ.findProducto(produ.getCodigo_producto());
+        return ResponseEntity.ok(produ);
     }
 
 //***************************************
