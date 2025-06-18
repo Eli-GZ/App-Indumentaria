@@ -18,8 +18,5 @@ public interface IClienteService {
     //Encontrar un producto
     public Cliente findCliente(Long id_cliente);
 
-    //Editar persona
-    public void editCliente(Long id_cliente, String nombreNuevo, String apellidoNuevo, String dniNuevo);
-
-    public void editCliente(Cliente clien);
+   
 }

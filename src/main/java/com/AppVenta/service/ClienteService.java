@@ -34,20 +34,5 @@ public class ClienteService implements IClienteService {
         return clien;
     }
 
-    @Override
-    public void editCliente(Long id_cliente, String nombreNuevo, String apellidoNuevo, String dniNuevo) {
-        Cliente clien = this.findCliente(id_cliente);
-
-        clien.setNombre(nombreNuevo);
-        clien.setApellido(apellidoNuevo);
-        clien.setDni(dniNuevo);
-
-        this.saveCliente(clien);
-    }
-
-    @Override
-    public void editCliente(Cliente clien) {
-        this.saveCliente(clien);
-    }
 
 }

@@ -2,7 +2,6 @@ package com.AppVenta.controller;
 
 import com.AppVenta.exception.NoEncontradoExcepcion;
 import com.AppVenta.model.Producto;
-import com.AppVenta.model.Venta;
 import com.AppVenta.service.IProductoService;
 import com.AppVenta.service.IVentaService;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,8 +25,6 @@ public class ProductoController {
 
     @Autowired
     private IProductoService producServ;
-    @Autowired
-    private IVentaService ventaServ;
 
     //ENDPOINT para obtener un producto
     @GetMapping("/productos/{codigo_producto}")
@@ -43,8 +39,9 @@ public class ProductoController {
 
     //ENDPOINT para obtener todos los productos
     @GetMapping("/productos")
-    public List<Producto> getProductos() {
-        return producServ.getProductos();
+    public ResponseEntity<List<Producto>> getProductos() {
+        List<Producto> produ = producServ.getProductos();
+        return ResponseEntity.ok(produ);
     }
 
     //ENDPOINT para crear un nuevo producto
@@ -82,6 +79,7 @@ public class ProductoController {
         if (produ == null) {
             throw new NoEncontradoExcepcion("No se encontró el codigo del producto: " + codigo_producto);
         }
+
         //Envio nuevos datos para modificar
         produ.setNombre(produRecibido.getNombre());
         produ.setTalle(produRecibido.getTalle());
@@ -95,11 +93,15 @@ public class ProductoController {
 //***************************************
     //ENDPOINT para obtener todos los productos
     @GetMapping("/productos/falta_stock")
-    public List<Producto> faltaStock() {
+    public ResponseEntity<List<Producto>> faltaStock() {
         List<Producto> productos = producServ.getProductos();
 
-        return productos.stream().filter(p -> p.getCantidad_disponible() <= 5).collect(Collectors.toList());
+        List<Producto> ProduMenosCinco = productos.stream().filter(p -> p.getCantidad_disponible() <= 5).collect(Collectors.toList());
+        if (ProduMenosCinco.isEmpty()) {
+            throw new NoEncontradoExcepcion("No se encontraron productos con menos de 5 unidades ");
+        }
 
+        return ResponseEntity.ok(ProduMenosCinco);
     }
 
 }
