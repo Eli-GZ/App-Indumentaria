@@ -45,7 +45,7 @@ public class ProductoController {
     }
 
     //ENDPOINT para crear un nuevo producto
-    @PostMapping("/productos/crear")
+    @PostMapping("/productos")
     public String createProducto(@RequestBody Producto produc) {
         producServ.saveProducto(produc);
         //mensaje de creacion correcta
@@ -53,7 +53,7 @@ public class ProductoController {
     }
 
     //ENDPOINT para eliminar un producto
-    @DeleteMapping("/productos/eliminar/{codigo_producto}")
+    @DeleteMapping("/productos/{codigo_producto}")
     public String deleteProducto(@PathVariable Long codigo_producto) {
 
         //confirmar que existe un producto
@@ -69,7 +69,7 @@ public class ProductoController {
     }
 
     //ENDPOINT para modificar una producto
-    @PutMapping("/productos/editar/{codigo_producto}")
+    @PutMapping("/productos/{codigo_producto}")
     public ResponseEntity<Producto> editProducto(@PathVariable Long codigo_producto,
             @RequestBody Producto produRecibido) {
 
