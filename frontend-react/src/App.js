@@ -18,25 +18,25 @@ function App() {
           <Route
             path="/inicio"
             element={
-              <RutaProtegida>
+              //<RutaProtegida>
                 <ListadoEmpleados />
-              </RutaProtegida>
+              //</RutaProtegida>
             }
           />
           <Route
             path="/agregar"
             element={
-              <RutaProtegida>
+             // <RutaProtegida>
                 <AgregarEmpleado />
-              </RutaProtegida>
+             // </RutaProtegida>
             }
           />
           <Route
             path="/editar/:id"
             element={
-              <RutaProtegida>
+              //<RutaProtegida>
                 <EditarEmpleado />
-              </RutaProtegida>
+              //</RutaProtegida>
             }
           />
         </Routes>

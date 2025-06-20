@@ -11,9 +11,9 @@ export default function Navegacion({ logueado, setLogueado}) {
   };
   return (
     <div className='container'>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-pink bg-primary">
         <div className="container-fluid">
-          <a className="navbar-brand fs-3" href="/inicio">Sistema de Recursos Humanos</a>
+          <a className="navbar-brand fs-3" href="/inicio">Control de stock - Indumentaria Suzy</a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
