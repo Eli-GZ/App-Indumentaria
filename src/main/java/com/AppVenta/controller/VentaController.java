@@ -42,7 +42,7 @@ public class VentaController {
     private IVentaService ventaServ;
 
 //ENDPOINT para crear una nueva venta
-    @PostMapping("/ventas/crear")
+    @PostMapping("/ventas")
     public String createVenta(@RequestBody VentaDTO ventaDTO) {
 
         //Actualizacion de TOTAL
@@ -135,7 +135,7 @@ public class VentaController {
     }
 
 //ENDPOINT para eliminar una venta
-    @DeleteMapping("/ventas/eliminar/{codigo_venta}")
+    @DeleteMapping("/ventas/{codigo_venta}")
     public String deleteVenta(@PathVariable Long codigo_venta) {
         //confirmar que existe un cliente        
         Venta vent = ventaServ.findVenta(codigo_venta);
@@ -150,7 +150,7 @@ public class VentaController {
     }
 //ENDPOINT para editar una venta
 
-    @PutMapping("/ventas/editar/{codigo_venta}")
+    @PutMapping("/ventas/{codigo_venta}")
     public String editVenta(@PathVariable Long codigo_venta, @RequestBody VentaDTO ventaDTO) {
 
         // Buscar la venta original
