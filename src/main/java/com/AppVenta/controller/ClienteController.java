@@ -43,7 +43,7 @@ public class ClienteController {
     }
 
     //ENDPOINT para crear un nuevo cliente
-    @PostMapping("/clientes/crear")
+    @PostMapping("/clientes")
     public String createCliente(@RequestBody Cliente clien) {
         clientServ.saveCliente(clien);
         //mensaje de creacion correcta
@@ -51,7 +51,7 @@ public class ClienteController {
     }
 
     //ENDPOINT para eliminar un cliente
-    @DeleteMapping("/clientes/eliminar/{id_cliente}")
+    @DeleteMapping("/clientes/{id_cliente}")
     public String deleteCliente(@PathVariable Long id_cliente) {
 
         //confirmar que existe un cliente        
@@ -67,7 +67,7 @@ public class ClienteController {
     }
 
     //ENDPOINT para modificar un nuevo cliente
-    @PutMapping("/clientes/editar/{id_cliente}")
+    @PutMapping("/clientes/{id_cliente}")
     public ResponseEntity<Cliente> editCliente(@PathVariable Long id_cliente,
             @RequestBody Cliente clieRecibido) {
         //Envio id original(para buscar)
