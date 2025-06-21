@@ -29,7 +29,7 @@ const eliminarEmpleado = async(id) =>{
   return (
     <div className="container">
       <div className="container text-center">
-        <h4 className="text-light">Listado de productos en stock</h4>
+        <h4 className="text-dark">Listado de productos en stock</h4>
       </div>
 
       <table className="table table-striped table-hover align-middle">

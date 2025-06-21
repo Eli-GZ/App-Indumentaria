@@ -25,7 +25,7 @@ const Login = ({ setLogueado }) => {
   };
 
   return (
-    <div className='col-md-6 mx-auto mt-5'>
+    <div className='mx-auto mt-5'>
       <h1 className='text-center text-light'>Inicio de sesión</h1>
       <form onSubmit={handleLogin}>
         <div className="mb-3">

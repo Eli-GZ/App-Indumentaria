@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-export default function Navegacion({ logueado, setLogueado}) {
+export default function Navegacion({ logueado, setLogueado }) {
   const navigate = useNavigate();
 
   const cerrarSesion = () => {
@@ -9,36 +9,38 @@ export default function Navegacion({ logueado, setLogueado}) {
     setLogueado(false);
     navigate('/');
   };
-  return (
-    <div className='container'>
-      <nav className="navbar navbar-expand-lg navbar-pink bg-primary">
-        <div className="container-fluid">
-          <a className="navbar-brand fs-3" href="/inicio">Control de stock - Indumentaria Suzy</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto fs-5">
-              {/* Mostrar solo si está logueado */}
-              {logueado && (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/inicio">Inicio</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/agregar">Agregar empleado</Link>
-                  </li>
-                    <li className="nav-item">
-                    <button className="nav-link" onClick={cerrarSesion}>Cerrar sesión</button>
-                  </li>
-                </>
-              )}
-
-
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
+  return (       
+       <div className="d-flex">
+      {/* Sidebar lateral fijo */}
+      <div
+        className="bg-dark text-white vh-100 p-3"
+        style={{ width: '250px', position: 'fixed', left: 0, top: 0 }}
+      >
+        <h5 className="text-white mb-4">Control de stock - Indumentaria Suzy</h5>
+        <ul className="nav flex-column fs-5">
+          {logueado && (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link text-white" to="/inicio">Inicio</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-white" to="/agregar">Ventas</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-white" to="/agregar">Agregar Producto</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-white" to="/agregar">Agregar Cliente</Link>
+              </li>
+              <li className="nav-item mt-4">
+                <button className="btn btn-light w-100" onClick={cerrarSesion}>
+                  Cerrar sesión
+                </button>
+              </li>
+            </>
+          )}
+        </ul>
+      </div >
+    </div >
   )
 }
