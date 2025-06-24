@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function AgregarProducto() {
   let navegacion = useNavigate();
@@ -24,7 +24,7 @@ export default function AgregarProducto() {
     const urlBase = "http://localhost:8080/app-venta/productos";
     await axios.post(urlBase, producto);
     //Redirigimos a la pagina de inicio
-    navegacion("/inicio")
+    navegacion("/lista/producto")
   }
 
   return (
@@ -57,7 +57,7 @@ export default function AgregarProducto() {
           </div>
           <div className='text-center'>
             <button type="submit" className="btn btn-primary me-3 fs-4">Agregar</button>
-            <a href='/inicio' className='btn btn-dark fs-4'>Regresar</a>
+            <Link to='/lista/producto' className='btn btn-dark'>Regresar</Link>
           </div>
         </form>
       </div>

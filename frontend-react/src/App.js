@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login setLogueado={setLogueado} />} />
           <Route
-            path="/inicio"
+            path="/lista/producto"
             element={
               //<RutaProtegida>
               <ListadoProductos />
@@ -25,7 +25,7 @@ function App() {
             }
           />
           <Route
-            path="/agregar"
+            path="/agregar/producto"
             element={
               // <RutaProtegida>
               <AgregarProducto />
@@ -33,7 +33,7 @@ function App() {
             }
           />
           <Route
-            path="/editar/:codigo_producto"
+            path="/editar/producto/:codigo_producto"
             element={
               //<RutaProtegida>
               <EditarProducto />

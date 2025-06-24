@@ -22,24 +22,24 @@ export default function Navegacion({ logueado, setLogueado }) {
             <>
                <hr></hr>
               <li className="nav-item">
-                <Link className="nav-link text-white" to="/inicio">Lista de productos</Link>
+                <Link className="nav-link text-white" to="/lista/producto">Lista de productos</Link>
               </li>
                  <li className="nav-item">
-                <Link className="nav-link text-white" to="/agregar">Agregar Producto</Link>
+                <Link className="nav-link text-white" to="/agregar/producto">Agregar Producto</Link>
               </li>
               <hr></hr>
               <li className="nav-item">
-                <Link className="nav-link text-white" to="/inicio">Lista de clientes</Link>
+                <Link className="nav-link text-white" to="">Lista de clientes</Link>
               </li>               
               <li className="nav-item">
-                <Link className="nav-link text-white" to="/agregar">Agregar Cliente</Link>
+                <Link className="nav-link text-white" to="">Agregar Cliente</Link>
               </li>
               <hr></hr>
               <li className="nav-item">
-                <Link className="nav-link text-white" to="/inicio">Lista de ventas</Link>
+                <Link className="nav-link text-white" to="">Lista de ventas</Link>
               </li>          
               <li className="nav-item">
-                <Link className="nav-link text-white" to="/inicio">Agregar Ventas</Link>
+                <Link className="nav-link text-white" to="">Agregar Ventas</Link>
               </li>
 
               <li className="nav-item mt-4">

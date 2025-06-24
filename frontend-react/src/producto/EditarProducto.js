@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 export default function EditarProducto() {
 
   const urlBase = "http://localhost:8080/app-venta/productos";
 
-  let navegacion = useNavigate();
+  // let navegacion = useNavigate(); 
 
   const { codigo_producto } = useParams();
 
@@ -40,7 +40,7 @@ export default function EditarProducto() {
     e.preventDefault();
     await axios.put(`${urlBase}/${codigo_producto}`, producto);
     //Redirigimos a la pagina de inicio
-    navegacion("/inicio");
+    alert("El producto se modifico correctamente")
   }
 
   return (
@@ -73,7 +73,7 @@ export default function EditarProducto() {
           </div>
           <div className='text-center'>
             <button type="submit" className="btn btn-primary me-3">Guardar</button>
-            <a href='/inicio' className='btn btn-dark'>Regresar</a>
+            <Link to='/lista/producto' className='btn btn-dark'>Regresar</Link>
           </div>
         </form>
       </div>

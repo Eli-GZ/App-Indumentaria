@@ -25,7 +25,7 @@ export default function ListadoProductos() {
 const eliminarProductos = async(id) =>{
   await axios.delete(`${urlBase}/${id}`);
   cargarProductos();
-  alert("Se elimino el producto correctamente")
+  alert("El producto se eliminó el correctamente")
 }
   return (
     <div className="container">      
@@ -57,7 +57,7 @@ const eliminarProductos = async(id) =>{
                  <td>{producto.cantidad_disponible}</td>
                 <td className='text-center'>
                   <div>
-                    <Link to={`/editar/${producto.codigo_producto}`}
+                    <Link to={`/editar/producto/${producto.codigo_producto}`}
                     className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>
                     <button onClick={()=> eliminarProductos(producto.codigo_producto)}  className='btn btn-dark btn-sm fs-5'>
                       Eliminar
