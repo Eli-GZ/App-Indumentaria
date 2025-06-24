@@ -27,9 +27,12 @@ export default function Navegacion({ logueado, setLogueado }) {
                  <li className="nav-item">
                 <Link className="nav-link text-white" to="/agregar/producto">Agregar Producto</Link>
               </li>
+               <li className="nav-item">
+                <Link className="nav-link text-white" to="/lista/producto/falta_stock">Falta Stock</Link>
+              </li>
               <hr></hr>
               <li className="nav-item">
-                <Link className="nav-link text-white" to="">Lista de clientes</Link>
+                <Link className="nav-link text-white" to="/lista/cliente">Lista de clientes</Link>
               </li>               
               <li className="nav-item">
                 <Link className="nav-link text-white" to="">Agregar Cliente</Link>

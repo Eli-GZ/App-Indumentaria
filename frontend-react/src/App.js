@@ -7,6 +7,8 @@ import { useState } from "react";
 import AgregarProducto from "./producto/AgregarProducto";
 import ListadoProductos from "./producto/ListadoProductos";
 import EditarProducto from "./producto/EditarProducto";
+import ListadoClientes from "./cliente/ListadoClientes";
+import FaltaStock from "./producto/FaltaStock"
 
 function App() {
   const [logueado, setLogueado] = useState(localStorage.getItem("autenticado") === "true");
@@ -32,11 +34,27 @@ function App() {
               // </RutaProtegida>
             }
           />
+            <Route
+            path="/lista/producto/falta_stock"
+            element={
+              //<RutaProtegida>
+              <FaltaStock />
+              //</RutaProtegida>
+            }
+          />
           <Route
             path="/editar/producto/:codigo_producto"
             element={
               //<RutaProtegida>
               <EditarProducto />
+              //</RutaProtegida>
+            }
+          />
+            <Route
+            path="/lista/cliente"
+            element={
+              //<RutaProtegida>
+              <ListadoClientes />
               //</RutaProtegida>
             }
           />
