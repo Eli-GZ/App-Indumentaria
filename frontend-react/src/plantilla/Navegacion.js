@@ -20,18 +20,24 @@ export default function Navegacion({ logueado, setLogueado }) {
         <ul className="nav flex-column fs-5">
           {logueado && (
             <>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/inicio">Inicio</Link>
+             <li className="nav-item">
+                <Link className="nav-link text-white" to="/inicio">Lista de productos</Link>
+              </li>
+               <li className="nav-item">
+                <Link className="nav-link text-white" to="/inicio">Lista de clientes</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-white" to="/agregar">Ventas</Link>
+                <Link className="nav-link text-white" to="/inicio">Lista de ventas</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-white" to="/inicio">Agregar Ventas</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link text-white" to="/agregar">Agregar Producto</Link>
-              </li>
+              </li>   
               <li className="nav-item">
                 <Link className="nav-link text-white" to="/agregar">Agregar Cliente</Link>
-              </li>
+              </li>         
               <li className="nav-item mt-4">
                 <button className="btn btn-light w-100" onClick={cerrarSesion}>
                   Cerrar sesión

@@ -1,17 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ListadoEmpleados from "./empleados/ListadoEmpleados";
+
 import Navegacion from "./plantilla/Navegacion";
-import AgregarEmpleado from "./empleados/AgregarEmpleado";
-import EditarEmpleado from "./empleados/EditarEmpleado";
 import Login from "./login/Login";
 import RutaProtegida from "./login/RutaProtegida";
 import { useState } from "react";
+import AgregarProducto from "./producto/AgregarProducto";
+import ListadoProductos from "./producto/ListadoProductos";
+import EditarProducto from "./producto/EditarProducto";
 
 function App() {
-   const [logueado, setLogueado] = useState(localStorage.getItem("autenticado") === "true");
-  return (    
+  const [logueado, setLogueado] = useState(localStorage.getItem("autenticado") === "true");
+  return (
     <div className="container">
- <BrowserRouter>
+      <BrowserRouter>
         <Navegacion logueado={logueado} setLogueado={setLogueado} />
         <Routes>
           <Route path="/" element={<Login setLogueado={setLogueado} />} />
@@ -19,23 +20,23 @@ function App() {
             path="/inicio"
             element={
               //<RutaProtegida>
-                <ListadoEmpleados />
+              <ListadoProductos />
               //</RutaProtegida>
             }
           />
           <Route
             path="/agregar"
             element={
-             // <RutaProtegida>
-                <AgregarEmpleado />
-             // </RutaProtegida>
+              // <RutaProtegida>
+              <AgregarProducto />
+              // </RutaProtegida>
             }
           />
           <Route
-            path="/editar/:id"
+            path="/editar/:codigo_producto"
             element={
               //<RutaProtegida>
-                <EditarEmpleado />
+              <EditarProducto />
               //</RutaProtegida>
             }
           />
