@@ -25,6 +25,7 @@ export default function ListadoProductos() {
 const eliminarProductos = async(id) =>{
   await axios.delete(`${urlBase}/${id}`);
   cargarProductos();
+  alert("Se elimino el producto correctamente")
 }
   return (
     <div className="container">      
