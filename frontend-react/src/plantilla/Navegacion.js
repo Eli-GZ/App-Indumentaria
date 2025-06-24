@@ -20,6 +20,7 @@ export default function Navegacion({ logueado, setLogueado }) {
         <ul className="nav flex-column fs-5">
           {logueado && (
             <>
+               <hr></hr>
               <li className="nav-item">
                 <Link className="nav-link text-white" to="/inicio">Lista de productos</Link>
               </li>
