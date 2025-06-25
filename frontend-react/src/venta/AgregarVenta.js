@@ -116,6 +116,7 @@ export default function AgregarVenta() {
       await axios.post("http://localhost:8080/app-venta/ventas", ventaAEnviar);
       navegar("/lista/venta");
     } catch (error) {
+      alert("No se pudo concretar la venta "+ error.response?.data);
       console.error("Error al guardar la venta:", error.response?.data || error.message);
     }
   };
