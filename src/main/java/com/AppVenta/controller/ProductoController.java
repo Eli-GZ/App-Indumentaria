@@ -97,10 +97,7 @@ public class ProductoController {
         List<Producto> productos = producServ.getProductos();
 
         List<Producto> ProduMenosCinco = productos.stream().filter(p -> p.getCantidad_disponible() <= 5).collect(Collectors.toList());
-        if (ProduMenosCinco.isEmpty()) {
-            throw new NoEncontradoExcepcion("No se encontraron productos con menos de 5 unidades ");
-        }
-
+      
         return ResponseEntity.ok(ProduMenosCinco);
     }
 

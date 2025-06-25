@@ -10,7 +10,7 @@ export default function Navegacion({ logueado, setLogueado }) {
     navigate('/');
   };
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex">
       {/* Sidebar lateral fijo */}
       <div
         className="bg-dark text-white vh-100 p-3"
@@ -24,12 +24,12 @@ export default function Navegacion({ logueado, setLogueado }) {
               <ul>Productos
                 <li className="nav-item">
                   <Link className="nav-link text-white fs-6" to="/lista/producto">Lista de productos</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link text-white fs-6" to="/agregar/producto">Agregar Producto</Link>
-                </li>
+                </li>               
                 <li className="nav-item">
                   <Link className="nav-link text-white fs-6" to="/lista/producto/falta_stock">Falta Stock</Link>
+                </li>
+                 <li className="nav-item">
+                  <Link className="nav-link text-white fs-6" to="/agregar/producto">Agregar Producto</Link>
                 </li>
               </ul>
               <hr></hr>

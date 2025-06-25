@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 
-export default function EditarProducto() {
+export default function EditarProductoFaltaStock() {
 
   const urlBase = "http://localhost:8080/app-venta/productos";
 
@@ -73,7 +73,7 @@ export default function EditarProducto() {
           </div>
           <div className='text-center'>
             <button type="submit" className="btn btn-primary me-3">Guardar</button>
-            <Link to='/lista/producto' className='btn btn-dark'>Regresar</Link>
+            <Link to='/lista/producto/falta_stock' className='btn btn-dark'>Regresar</Link>
           </div>
         </form>
       </div>

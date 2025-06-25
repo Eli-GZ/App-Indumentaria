@@ -15,13 +15,20 @@ export default function ListadoProductos() {
     cargarProductos();
   }, []);
 
+  const [mensaje, setMensaje] = useState("");
   //get con axios. carga los datos del back-end(resultado.data) y lo guarda en productos
   const cargarProductos = async () => {
     const resultado = await axios.get(urlBase);
-    console.log("Resultado cargar productos");
-    console.log(resultado.data);
-    setProductos(resultado.data);
+    const datos = resultado.data;
+    if (!datos || datos.length === 0) {
+      setMensaje("No hay artículos con menos de 5 unidades en stock.");
+    } else {
+      setMensaje(""); // limpia el mensaje si hay productos
+    }
+    setProductos(datos);
+    console.log(datos);
   }
+
   const eliminarProductos = async (id) => {
     await axios.delete(`${urlBase}/${id}`);
     cargarProductos();
@@ -57,8 +64,9 @@ export default function ListadoProductos() {
                 <td>{producto.cantidad_disponible}</td>
                 <td className='text-center'>
                   <div>
-                    <Link to={`/editar/producto/${producto.codigo_producto}`}
-                      className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>
+                    <Link to={`/editar/producto/falta_stock/${producto.codigo_producto}`}
+                      className='btn btn-primary btn-sm
+                       me-3 fs-5'>Editar</Link>
                     <button onClick={() => eliminarProductos(producto.codigo_producto)} className='btn btn-dark btn-sm fs-5'>
                       Eliminar
                     </button>
@@ -67,9 +75,10 @@ export default function ListadoProductos() {
               </tr>
             ))
           }
-
         </tbody>
       </table>
+      <div>
+        {mensaje && <p style={{ color: "red" }}>{mensaje}</p>}</div>
     </div>
 
   )

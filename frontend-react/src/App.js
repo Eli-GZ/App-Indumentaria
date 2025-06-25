@@ -13,6 +13,8 @@ import EditarCliente from "./cliente/EditarCliente";
 import FaltaStock from "./producto/FaltaStock"
 import ListadoVentas from "./venta/ListadoVentas";
 import AgregarVenta from "./venta/AgregarVenta";
+import EditarProductoFaltaStock from "./producto/EditarProductoFaltaStock";
+import EditarVenta from "./venta/EditarVenta";
 
 function App() {
   const [logueado, setLogueado] = useState(localStorage.getItem("autenticado") === "true");
@@ -43,6 +45,14 @@ function App() {
             element={
               //<RutaProtegida>
               <FaltaStock />
+              //</RutaProtegida>
+            }
+          />
+            <Route
+            path="/editar/producto/falta_stock/:codigo_producto"
+            element={
+              //<RutaProtegida>
+              <EditarProductoFaltaStock/>
               //</RutaProtegida>
             }
           />
@@ -91,6 +101,14 @@ function App() {
             element={
               //<RutaProtegida>
               <AgregarVenta />
+              //</RutaProtegida>
+            }
+          />
+             <Route
+            path="/editar/venta/:codigo_venta"
+            element={
+              //<RutaProtegida>
+              <EditarVenta />
               //</RutaProtegida>
             }
           />

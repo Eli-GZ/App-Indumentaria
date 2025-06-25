@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
 
 export default function ListadoVentas() {
@@ -51,7 +52,7 @@ export default function ListadoVentas() {
               <tr key={indice}>
                 <th scope="row">{ventas.codigo_venta}</th>
                 <td>{ventas.unCliente.nombre} {ventas.unCliente.apellido}</td>
-                <td>{ventas.fechaVenta}</td>             
+                <td>{ventas.fechaVenta}</td>
                 <td>
                   <div className="dropdown">
                     <button className="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,13 +67,16 @@ export default function ListadoVentas() {
                     </ul>
                   </div>
                 </td>
-                <td>{ventas.total}</td>
+                <td><NumericFormat value={ventas.total}
+                  displayType='text'
+                  thousandSeparator="," prefix='$'
+                  fixedDecimalScale /></td>
                 <td></td>
                 <td className='text-center'>
                   <div>
-                    <Link to={`/editar/cliente/${ventas.id_cliente}`}
+                    <Link to={`/editar/venta/${ventas.codigo_venta}`}
                       className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>
-                    <button onClick={() => eliminarClientes(ventas.id_cliente)} className='btn btn-dark btn-sm fs-5'>
+                    <button onClick={() => eliminarClientes(ventas.codigo_venta)} className='btn btn-dark btn-sm fs-5'>
                       Eliminar
                     </button>
                   </div>
