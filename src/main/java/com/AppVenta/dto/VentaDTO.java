@@ -11,7 +11,6 @@ public class VentaDTO {
 
     private LocalDate fecha_venta;
     private Double total;
-    private List<Long> listaProductosIds;
+    private List<ProductoCantidadDTO> listaProductos;
     private Long clienteId;
-
 }

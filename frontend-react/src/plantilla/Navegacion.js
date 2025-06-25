@@ -20,30 +20,36 @@ export default function Navegacion({ logueado, setLogueado }) {
         <ul className="nav flex-column fs-5">
           {logueado && (
             <>
-               <hr></hr>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/lista/producto">Lista de productos</Link>
-              </li>
-                 <li className="nav-item">
-                <Link className="nav-link text-white" to="/agregar/producto">Agregar Producto</Link>
-              </li>
-               <li className="nav-item">
-                <Link className="nav-link text-white" to="/lista/producto/falta_stock">Falta Stock</Link>
-              </li>
               <hr></hr>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/lista/cliente">Lista de clientes</Link>
-              </li>               
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="">Agregar Cliente</Link>
-              </li>
+              <ul>Productos
+                <li className="nav-item">
+                  <Link className="nav-link text-white fs-6" to="/lista/producto">Lista de productos</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white fs-6" to="/agregar/producto">Agregar Producto</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white fs-6" to="/lista/producto/falta_stock">Falta Stock</Link>
+                </li>
+              </ul>
               <hr></hr>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="">Lista de ventas</Link>
-              </li>          
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="">Agregar Ventas</Link>
-              </li>
+              <ul>Clientes
+                <li className="nav-item">
+                  <Link className="nav-link text-white fs-6" to="/lista/cliente">Lista de clientes</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white fs-6" to="/agregar/cliente">Agregar Cliente</Link>
+                </li>
+              </ul>
+              <hr></hr>
+              <ul>Ventas
+                <li className="nav-item">
+                  <Link className="nav-link text-white fs-6" to="/lista/venta">Lista de ventas</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white fs-6" to="/agregar/venta">Agregar Ventas</Link>
+                </li>
+              </ul>
 
               <li className="nav-item mt-4">
                 <button className="btn btn-light w-100" onClick={cerrarSesion}>

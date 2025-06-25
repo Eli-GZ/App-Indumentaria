@@ -8,7 +8,11 @@ import AgregarProducto from "./producto/AgregarProducto";
 import ListadoProductos from "./producto/ListadoProductos";
 import EditarProducto from "./producto/EditarProducto";
 import ListadoClientes from "./cliente/ListadoClientes";
+import AgregarCliente from "./cliente/AgregarCliente";
+import EditarCliente from "./cliente/EditarCliente";
 import FaltaStock from "./producto/FaltaStock"
+import ListadoVentas from "./venta/ListadoVentas";
+import AgregarVenta from "./venta/AgregarVenta";
 
 function App() {
   const [logueado, setLogueado] = useState(localStorage.getItem("autenticado") === "true");
@@ -34,7 +38,7 @@ function App() {
               // </RutaProtegida>
             }
           />
-            <Route
+          <Route
             path="/lista/producto/falta_stock"
             element={
               //<RutaProtegida>
@@ -50,11 +54,43 @@ function App() {
               //</RutaProtegida>
             }
           />
-            <Route
+          <Route
             path="/lista/cliente"
             element={
               //<RutaProtegida>
               <ListadoClientes />
+              //</RutaProtegida>
+            }
+          />
+          <Route
+            path="/agregar/cliente"
+            element={
+              //<RutaProtegida>
+              <AgregarCliente />
+              //</RutaProtegida>
+            }
+          />
+          <Route
+            path="/editar/cliente/:id_cliente"
+            element={
+              //<RutaProtegida>
+              <EditarCliente />
+              //</RutaProtegida>
+            }
+          />
+          <Route
+            path="/lista/venta"
+            element={
+              //<RutaProtegida>
+              <ListadoVentas />
+              //</RutaProtegida>
+            }
+          />
+          <Route
+            path="/agregar/venta"
+            element={
+              //<RutaProtegida>
+              <AgregarVenta />
               //</RutaProtegida>
             }
           />

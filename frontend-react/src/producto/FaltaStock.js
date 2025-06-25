@@ -22,9 +22,14 @@ export default function ListadoProductos() {
     console.log(resultado.data);
     setProductos(resultado.data);
   }
+  const eliminarProductos = async (id) => {
+    await axios.delete(`${urlBase}/${id}`);
+    cargarProductos();
+    alert("El producto se eliminó el correctamente")
+  }
   return (
-    <div className="container">      
-      <div className="container text-center "style={{ margin: "40px" }}>
+    <div className="container">
+      <div className="container text-center " style={{ margin: "40px" }}>
         <h4 className="text-dark">Faltante de stock</h4>
       </div>
       <table className="table table-striped table-hover align-middle">
@@ -43,17 +48,20 @@ export default function ListadoProductos() {
             productos.map((producto, indice) => (
               <tr key={indice}>
                 <th scope="row">{producto.nombre}</th>
-                <td>{producto.talle}</td>               
+                <td>{producto.talle}</td>
                 <td><NumericFormat value={producto.costo}
                   displayType='text'
                   thousandSeparator="," prefix='$'
                   decimalScale={2} fixedDecimalScale />
                 </td>
-                 <td>{producto.cantidad_disponible}</td>
+                <td>{producto.cantidad_disponible}</td>
                 <td className='text-center'>
                   <div>
                     <Link to={`/editar/producto/${producto.codigo_producto}`}
-                    className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>                 
+                      className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>
+                    <button onClick={() => eliminarProductos(producto.codigo_producto)} className='btn btn-dark btn-sm fs-5'>
+                      Eliminar
+                    </button>
                   </div>
                 </td>
               </tr>

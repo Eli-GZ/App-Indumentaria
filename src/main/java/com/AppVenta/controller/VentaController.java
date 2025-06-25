@@ -1,5 +1,6 @@
 package com.AppVenta.controller;
 
+import com.AppVenta.dto.ProductoCantidadDTO;
 import com.AppVenta.dto.TotalVentaDTO;
 import com.AppVenta.dto.VentaDTO;
 import com.AppVenta.model.Cliente;
@@ -43,73 +44,69 @@ public class VentaController {
 
 //ENDPOINT para crear una nueva venta
     @PostMapping("/ventas")
-    public String createVenta(@RequestBody VentaDTO ventaDTO) {
+    public ResponseEntity<?> createVenta(@RequestBody VentaDTO ventaDTO) {
 
-        //Actualizacion de TOTAL
-        //Obtener todos los productos   
+        // Obtener todos los productos
         List<Producto> totalProductos = produServ.getProductos();
 
-        // Crear un mapa: id -> Producto
+        // Crear un mapa de id -> Producto
         Map<Long, Producto> mapaProducto = totalProductos.stream()
                 .collect(Collectors.toMap(Producto::getCodigo_producto, p -> p));
 
-        // Contar cuántas unidades se solicitan por cada producto
-        Map<Long, Long> conteoProductos = ventaDTO.getListaProductosIds().stream()
-                .collect(Collectors.groupingBy(id -> id, Collectors.counting()));
-
-        //Construir la lista de productos respetando repeticiones
+        // Construir la lista de productos con cantidades
         List<Producto> productosSeleccionados = new ArrayList<>();
         double ventasTotales = 0.0;
 
-        // Verificar stock disponible y construir la lista
-        for (Map.Entry<Long, Long> entrada : conteoProductos.entrySet()) {
-            Long idProducto = entrada.getKey();
-            Long cantidadSolicitada = entrada.getValue();
+        for (ProductoCantidadDTO entrada : ventaDTO.getListaProductos()) {
+            Long idProducto = entrada.getCodigo_producto();
+            int cantidadSolicitada = entrada.getCantidad();
 
             Producto producto = mapaProducto.get(idProducto);
 
             if (producto == null) {
-                return "Error: No se encontró el producto con ID: " + idProducto;
+                return ResponseEntity.badRequest().body("Error: No se encontró el producto con ID: " + idProducto);
             }
 
-            Double stockDisponible = producto.getCantidad_disponible();
-            if (stockDisponible == null || stockDisponible < cantidadSolicitada) {
-                return "Error: Stock insuficiente. Producto: '" + producto.getNombre() + "'. Solicitado: " + cantidadSolicitada + ", Disponible: " + stockDisponible;
+            double stockDisponible = producto.getCantidad_disponible() != null ? producto.getCantidad_disponible() : 0.0;
+
+            if (stockDisponible < cantidadSolicitada) {
+                return ResponseEntity.badRequest().body(
+                        "Error: Stock insuficiente. Producto: '" + producto.getNombre()
+                        + "'. Solicitado: " + cantidadSolicitada
+                        + ", Disponible: " + stockDisponible
+                );
             }
 
-            // Agregar el producto tantas veces como se pidió
+            // Agregar el producto tantas veces como fue solicitado
             for (int i = 0; i < cantidadSolicitada; i++) {
                 productosSeleccionados.add(producto);
                 ventasTotales += producto.getCosto() != null ? producto.getCosto() : 0.0;
             }
         }
 
-        //obtener cliente
-        List<Cliente> todosLosClientes = clientServ.getClientes();
-
-        Cliente client = todosLosClientes.stream()
+        // Obtener cliente
+        Cliente client = clientServ.getClientes().stream()
                 .filter(c -> c.getId_cliente().equals(ventaDTO.getClienteId()))
                 .findFirst()
                 .orElse(null);
 
-        if (client == null || productosSeleccionados.isEmpty()) {
-            return "Error: Cliente no encontrado";
+        if (client == null) {
+            return ResponseEntity.badRequest().body("Error: Cliente no encontrado");
         }
 
-        //Descontar stock
-        for (Map.Entry<Long, Long> entrada : conteoProductos.entrySet()) {
-            Producto produ = mapaProducto.get(entrada.getKey());
-            Long cantidadVendida = entrada.getValue();
-
-            //Descontar
-            double nuevoStock = produ.getCantidad_disponible() - cantidadVendida;
-            produ.setCantidad_disponible(nuevoStock);
-
-            //Guardar producto actualizado
-            produServ.saveProducto(produ);
+        if (productosSeleccionados.isEmpty()) {
+            return ResponseEntity.badRequest().body("Error: No se seleccionaron productos válidos para la venta");
         }
 
-        // Crear la venta
+        // Descontar stock y guardar productos actualizados
+        for (ProductoCantidadDTO entrada : ventaDTO.getListaProductos()) {
+            Producto producto = mapaProducto.get(entrada.getCodigo_producto());
+            double nuevoStock = producto.getCantidad_disponible() - entrada.getCantidad();
+            producto.setCantidad_disponible(nuevoStock);
+            produServ.saveProducto(producto);
+        }
+
+        // Crear y guardar la venta
         Venta venta = new Venta();
         venta.setFechaVenta(ventaDTO.getFecha_venta());
         venta.setTotal(ventasTotales);
@@ -117,12 +114,10 @@ public class VentaController {
         venta.setUnCliente(client);
         ventaServ.saveVenta(venta);
 
-
-        //mensaje de creacion correcta
-        return "La venta fue creada correctamente";
+        return ResponseEntity.ok("La venta fue creada correctamente");
     }
-
 //ENDPOINT para obtener todas las ventas
+
     @GetMapping("/ventas")
     public List<Venta> getVentas() {
         return ventaServ.getVentas();
@@ -170,11 +165,16 @@ public class VentaController {
         List<Producto> productosSeleccionados = new ArrayList<>();
         double ventasTotales = 0.0;
 
-        for (Long id : ventaDTO.getListaProductosIds()) {
-            Producto produ = mapaProducto.get(id);
+        for (ProductoCantidadDTO entrada : ventaDTO.getListaProductos()) {
+            Long idProducto = entrada.getCodigo_producto();
+            int cantidad = entrada.getCantidad();
+
+            Producto produ = mapaProducto.get(idProducto);
             if (produ != null) {
-                productosSeleccionados.add(produ);
-                ventasTotales += produ.getCosto() != null ? produ.getCosto() : 0.0;
+                for (int i = 0; i < cantidad; i++) {
+                    productosSeleccionados.add(produ);
+                    ventasTotales += produ.getCosto() != null ? produ.getCosto() : 0.0;
+                }
             }
         }
 

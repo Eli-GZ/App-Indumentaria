@@ -57,7 +57,7 @@ export default function AgregarProducto() {
           </div>
           <div className='text-center'>
             <button type="submit" className="btn btn-primary me-3 fs-4">Agregar</button>
-            <Link to='/lista/producto' className='btn btn-dark'>Regresar</Link>
+            <Link to='/lista/producto' className='btn btn-dark fs-4'>Regresar</Link>
           </div>
         </form>
       </div>
