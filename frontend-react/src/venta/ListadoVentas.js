@@ -69,7 +69,7 @@ export default function ListadoVentas() {
                 </td>
                 <td><NumericFormat value={ventas.total}
                   displayType='text'
-                  thousandSeparator="," prefix='$'
+                  thousandSeparator="`.`" prefix='$'
                   fixedDecimalScale /></td>
                 <td></td>
                 <td className='text-center'>

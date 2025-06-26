@@ -2,10 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+
 export default function EditarVenta() {
   const navegar = useNavigate();
   const { codigo_venta } = useParams();
 
+  // Estado que contiene los datos de la venta actual
   const [venta, setVenta] = useState({
     fechaVenta: "",
     unCliente: {},
@@ -13,47 +15,72 @@ export default function EditarVenta() {
     total: 0
   });
 
+  // Estado que contiene la lista de clientes disponibles
   const [clientesDisponibles, setClientesDisponibles] = useState([]);
+
+  // Estado que contiene la lista de productos disponibles
   const [productosDisponibles, setProductosDisponibles] = useState([]);
 
-  // Cargar venta existente
+  // Efecto que se ejecuta cuando se carga la venta para mostrarla en consola
   useEffect(() => {
-    const cargarVentaExistente = async () => {
-      try {
-        const res = await axios.get(`http://localhost:8080/app-venta/ventas/${codigo_venta}`);
-        console.log("Venta cargada:", res.data);
+    if (venta.listaProductos) {
+      console.log("Venta cargada:", venta);
+      console.log("Lista productos:", venta.listaProductos);
+    }
+  }, [venta]);
 
-        if (res.data) {
-          setVenta({
-            fechaVenta: res.data.fechaVenta || "", // <- OJO: con V mayúscula
-            unCliente: res.data.unCliente || {},
-            listaProductos: res.data.listaProductos.map(p => ({
-              producto: p,  // sin "producto" anidado, ya está plano
-              cantidad: 1   // si no tenés la cantidad guardada, asumimos 1
-            })),
-            total: res.data.total || 0
-          });
-        }
-      } catch (error) {
-        console.error("Error al cargar la venta:", error);
-      }
-    };
-    cargarVentaExistente();
+  // Efecto que obtiene los datos de la venta a editar al montar el componente
+  useEffect(() => {
+    axios.get(`http://localhost:8080/app-venta/ventas/${codigo_venta}`)
+      .then(response => {
+        const ventaOriginal = response.data;
+        const listaProductosAgrupada = agruparProductos(ventaOriginal.listaProductos);
+
+        const fechaISO = ventaOriginal.fecha_venta;
+        const fechaFormateada = fechaISO ? fechaISO.split('T')[0] : "";
+
+        setVenta({
+          fechaVenta: fechaFormateada,
+          unCliente: ventaOriginal.unCliente,
+          listaProductos: listaProductosAgrupada.map(p => ({
+            producto: { ...p.producto },
+            cantidad: p.cantidad || 1
+          })),
+          total: ventaOriginal.total || 0
+        });
+      })
+      .catch(error => console.error("Error al obtener venta:", error));
   }, [codigo_venta]);
-  // Cargar clientes
+
+  // Agrupa productos repetidos por codigo_producto y suma sus cantidades
+  const agruparProductos = (productos) => {
+    const mapa = new Map();
+    productos.forEach(producto => {
+      const key = producto.codigo_producto;
+      if (!mapa.has(key)) {
+        mapa.set(key, { producto, cantidad: producto.cantidad || 1 });
+      } else {
+        mapa.get(key).cantidad += producto.cantidad || 1;
+      }
+    });
+    return Array.from(mapa.values());
+  };
+
+  // Efecto que carga todos los clientes disponibles desde el back
   useEffect(() => {
     axios.get("http://localhost:8080/app-venta/clientes")
       .then(res => setClientesDisponibles(res.data))
       .catch(err => console.error("Error cargando clientes", err));
   }, []);
 
-  // Cargar productos
+  // Efecto que carga todos los productos disponibles desde el back
   useEffect(() => {
     axios.get("http://localhost:8080/app-venta/productos")
       .then(res => setProductosDisponibles(res.data))
       .catch(err => console.error("Error cargando productos", err));
   }, []);
 
+  // Maneja el cambio del cliente seleccionado
   const onClienteChange = (e) => {
     const clienteSeleccionado = clientesDisponibles.find(
       c => c.id_cliente === parseInt(e.target.value)
@@ -61,47 +88,49 @@ export default function EditarVenta() {
     setVenta({ ...venta, unCliente: clienteSeleccionado || {} });
   };
 
+  // Maneja el cambio en el input de fecha
   const onInputChange = (e) => {
     setVenta({ ...venta, [e.target.name]: e.target.value });
   };
 
-  const actualizarCantidadProducto = (producto, cantidadStr) => {
-    let cantidad = parseInt(cantidadStr);
-    if (isNaN(cantidad) || cantidad < 0) cantidad = 0;
+  // Actualiza la cantidad de un producto en la venta o lo agrega si no está
+  const actualizarCantidadProducto = (producto, nuevaCantidad) => {
+    const cantidad = parseInt(nuevaCantidad);
+    const cantidadFinal = isNaN(cantidad) || cantidad < 0 ? 0 : cantidad;
 
-    let nuevaLista;
-    const index = venta.listaProductos.findIndex(
-      p => p.producto?.codigo_producto === producto.codigo_producto
+    const nuevaLista = venta.listaProductos.map(p => {
+      if (p.producto.codigo_producto === producto.codigo_producto) {
+        return { ...p, cantidad: cantidadFinal };
+      }
+      return p;
+    });
+
+    const yaExiste = venta.listaProductos.some(
+      p => p.producto.codigo_producto === producto.codigo_producto
     );
-
-    if (cantidad === 0) {
-      nuevaLista = venta.listaProductos.filter(
-        p => p.producto?.codigo_producto !== producto.codigo_producto
-      );
-    } else if (index !== -1) {
-      nuevaLista = [...venta.listaProductos];
-      nuevaLista[index].cantidad = cantidad;
-    } else {
-      nuevaLista = [...venta.listaProductos, { producto, cantidad }];
+    if (!yaExiste && cantidadFinal > 0) {
+      nuevaLista.push({ producto, cantidad: cantidadFinal });
     }
 
-    setVenta({ ...venta, listaProductos: nuevaLista });
+    const totalNuevo = nuevaLista.reduce((acc, item) => {
+      const costo = Number(item.producto?.costo || 0);
+      const cant = Number(item.cantidad || 0);
+      return acc + costo * cant;
+    }, 0);
+
+    setVenta({
+      ...venta,
+      listaProductos: nuevaLista.filter(p => p.cantidad > 0),
+      total: totalNuevo
+    });
   };
 
-  useEffect(() => {
-    const totalCalculado = venta.listaProductos.reduce((acc, item) => {
-      const cant = Number(item.cantidad);
-      const costo = Number(item.producto?.costo);
-      return acc + (isNaN(cant) || isNaN(costo) ? 0 : cant * costo);
-    }, 0);
-    setVenta(prev => ({ ...prev, total: totalCalculado }));
-  }, [venta.listaProductos]);
-
+  // Valida el formato de la fecha (yyyy-MM-dd)
   const isFechaValida = (fecha) => /^\d{4}-\d{2}-\d{2}$/.test(fecha);
 
+  // Envía la venta actualizada al backend
   const onSubmit = async (e) => {
     e.preventDefault();
-
     if (!isFechaValida(venta.fechaVenta)) {
       alert("Fecha inválida. Debe tener formato yyyy-MM-dd.");
       return;
@@ -109,14 +138,13 @@ export default function EditarVenta() {
 
     const ventaAEnviar = {
       fecha_venta: venta.fechaVenta,
-      clienteId: venta.unCliente.id_cliente,
+      id_cliente: venta.unCliente.id_cliente, 
       listaProductos: venta.listaProductos.map(p => ({
         codigo_producto: p.producto?.codigo_producto,
         cantidad: p.cantidad
       })),
       total: venta.total
     };
-
     try {
       await axios.put(`http://localhost:8080/app-venta/ventas/${codigo_venta}`, ventaAEnviar);
       navegar("/lista/venta");
@@ -126,6 +154,7 @@ export default function EditarVenta() {
     }
   };
 
+  // Render del formulario para editar la venta
   return (
     <div className='container'>
       <div className='text-center' style={{ margin: "40px" }}>
@@ -134,7 +163,8 @@ export default function EditarVenta() {
 
       <div className="row justify-content-center">
         <form className='col-md-6' onSubmit={onSubmit}>
-          {/* Select cliente */}
+
+          {/* Campo para seleccionar el cliente */}
           <div className="mb-3">
             <label className="form-label text-dark fs-5">Cliente</label>
             <select
@@ -152,7 +182,7 @@ export default function EditarVenta() {
             </select>
           </div>
 
-          {/* Input fecha */}
+          {/* Campo para seleccionar la fecha de venta */}
           <div className="mb-3">
             <label className="form-label text-dark fs-5">Fecha</label>
             <input
@@ -165,16 +195,15 @@ export default function EditarVenta() {
             />
           </div>
 
-          {/* Productos */}
+          {/* Selector de productos con sus cantidades */}
           <div className="mb-3">
             <label className="form-label text-dark fs-5">Seleccionar Productos</label>
             <div className="border p-3 rounded" style={{ maxHeight: "200px", overflowY: "scroll" }}>
               {productosDisponibles.map(producto => {
                 const productoEnVenta = venta.listaProductos.find(
-                  p => p.codigo_producto === producto.codigo_producto
+                  p => p.producto.codigo_producto === producto.codigo_producto
                 );
-                const cantidad = productoEnVenta ? 1 : 0; // Suponemos 1 si está en la venta
-
+                const cantidad = productoEnVenta ? productoEnVenta.cantidad : 0;
                 return (
                   <div key={producto.codigo_producto} className="d-flex align-items-center mb-2">
                     <div style={{ flexGrow: 1 }}>
@@ -183,20 +212,17 @@ export default function EditarVenta() {
                     <input
                       type="number"
                       min={0}
-                      value={cantidad}
-                      onChange={(e) =>
-                        actualizarCantidadProducto(producto, parseInt(e.target.value, 10) || 0)
-                      }
+                      value={cantidad === 0 ? "" : cantidad}
+                      onChange={(e) => actualizarCantidadProducto(producto, e.target.value)}
                       style={{ width: "60px", marginLeft: "10px" }}
                     />
                   </div>
                 );
               })}
-
             </div>
           </div>
 
-          {/* Total */}
+          {/* Campo que muestra el total de la venta */}
           <div className="mb-3">
             <label className="form-label text-dark fs-5">Total</label>
             <input
@@ -208,11 +234,12 @@ export default function EditarVenta() {
             />
           </div>
 
-          {/* Botones */}
+          {/* Botones para actualizar o cancelar la edición */}
           <div className='text-center'>
             <button type="submit" className="btn btn-primary me-3 fs-4">Actualizar</button>
             <Link to='/lista/venta' className='btn btn-dark fs-4'>Cancelar</Link>
           </div>
+
         </form>
       </div>
     </div>

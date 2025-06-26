@@ -1,16 +1,19 @@
 package com.AppVenta.dto;
 
+import com.AppVenta.model.Cliente;
 import java.time.LocalDate;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 @Getter
 @Setter
 public class VentaDTO {
 
+    private Long id_cliente;
+    private Long codigo_venta;
     private LocalDate fecha_venta;
-    private Double total;
+    private double total;
+    private Cliente unCliente;
     private List<ProductoCantidadDTO> listaProductos;
-    private Long clienteId;
 }

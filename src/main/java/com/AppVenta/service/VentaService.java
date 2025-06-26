@@ -41,7 +41,6 @@ public class VentaService implements IVentaService {
     public void editVenta(Long codigo_venta, LocalDate nuevaFecha_venta, Double nuevoTotal, List<Producto> nuevaListaProductos, Cliente nuevoUnCliente) {
 
         Venta vent = this.findVenta(codigo_venta);
-
         vent.setFechaVenta(nuevaFecha_venta);
         vent.setTotal(nuevoTotal);
         vent.setListaProductos(nuevaListaProductos);
@@ -65,5 +64,5 @@ public class VentaService implements IVentaService {
     public List<Venta> getVentasConProducto(Long codigoProducto) {
         return VentRepo.findByProductoCodigo(codigoProducto);
     }
-
+   
 }

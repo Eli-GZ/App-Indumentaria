@@ -86,7 +86,7 @@ public class VentaController {
 
         // Obtener cliente
         Cliente client = clientServ.getClientes().stream()
-                .filter(c -> c.getId_cliente().equals(ventaDTO.getClienteId()))
+                .filter(c -> c.getId_cliente().equals(ventaDTO.getUnCliente().getId_cliente()))
                 .findFirst()
                 .orElse(null);
 
@@ -125,8 +125,34 @@ public class VentaController {
 
 //ENDPOINT para obtener una venta
     @GetMapping("/ventas/{codigo_venta}")
-    public Venta getVenta(@PathVariable Long codigo_venta) {
-        return ventaServ.findVenta(codigo_venta);
+    public ResponseEntity<?> getVenta(@PathVariable Long codigo_venta) {
+        Venta ventaExistente = ventaServ.findVenta(codigo_venta);
+        if (ventaExistente == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Venta no encontrada");
+        }
+
+        Map<Long, ProductoCantidadDTO> mapaProductos = new HashMap<>();
+
+        for (Producto p : ventaExistente.getListaProductos()) {
+            ProductoCantidadDTO dto = mapaProductos.get(p.getCodigo_producto());
+            if (dto == null) {
+                dto = new ProductoCantidadDTO();
+                dto.setCodigo_producto(p.getCodigo_producto());
+                dto.setCantidad(1);
+                mapaProductos.put(p.getCodigo_producto(), dto);
+            } else {
+                dto.setCantidad(dto.getCantidad() + 1);
+            }
+        }
+
+        VentaDTO respuesta = new VentaDTO();
+        respuesta.setCodigo_venta(ventaExistente.getCodigo_venta());
+        respuesta.setFecha_venta(ventaExistente.getFechaVenta()); // LocalDate aquí
+        respuesta.setTotal(ventaExistente.getTotal());
+        respuesta.setUnCliente(ventaExistente.getUnCliente());
+        respuesta.setListaProductos(new ArrayList<>(mapaProductos.values()));
+
+        return ResponseEntity.ok(respuesta);
     }
 
 //ENDPOINT para eliminar una venta
@@ -181,7 +207,7 @@ public class VentaController {
         // Buscar el cliente
         List<Cliente> todosLosClientes = clientServ.getClientes();
         Cliente cliente = todosLosClientes.stream()
-                .filter(c -> c.getId_cliente().equals(ventaDTO.getClienteId()))
+                .filter(c -> c.getId_cliente().equals(ventaDTO.getId_cliente()))
                 .findFirst()
                 .orElse(null);
 

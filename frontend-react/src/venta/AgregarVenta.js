@@ -198,7 +198,7 @@ export default function AgregarVenta() {
           {/* Botones */}
           <div className='text-center'>
             <button type="submit" className="btn btn-primary me-3 fs-4">Agregar</button>
-            <Link to='/lista/cliente' className='btn btn-dark fs-4'>Regresar</Link>
+            <Link to='/lista/venta' className='btn btn-dark fs-4'>Regresar</Link>
           </div>
         </form>
       </div>
