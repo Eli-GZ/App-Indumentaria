@@ -22,12 +22,13 @@ export default function Navegacion({ logueado, setLogueado }) {
             <>
               <h5>Home</h5>
               <hr></hr>
-              <ul className="list-unstyled">Ventas
-                <li className="nav-item">
-                  <Link className="nav-link text-white fs-6 " to="/lista/venta/total">Total de ventas del dia</Link>
+               <li className="nav-item">
+                  <Link className="nav-link text-white fs-6 " to="/lista/venta/dia">Inicio</Link>
                 </li>
+              <hr></hr>
+              <ul className="list-unstyled">Ventas               
                 <li className="nav-item">
-                  <Link className="nav-link text-white fs-6 " to="/lista/venta">Lista de ventas</Link>
+                  <Link className="nav-link text-white fs-6 " to="/lista/venta">Todas las ventas</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link text-white fs-6 " to="/agregar/venta">Agregar Ventas</Link>

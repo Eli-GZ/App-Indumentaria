@@ -43,79 +43,84 @@ public class VentaController {
     private IVentaService ventaServ;
 
 //ENDPOINT para crear una nueva venta
-    @PostMapping("/ventas")
-    public ResponseEntity<?> createVenta(@RequestBody VentaDTO ventaDTO) {
+ @PostMapping("/ventas")
+public ResponseEntity<?> createVenta(@RequestBody VentaDTO ventaDTO) {
 
-        // Obtener todos los productos
-        List<Producto> totalProductos = produServ.getProductos();
-
-        // Crear un mapa de id -> Producto
-        Map<Long, Producto> mapaProducto = totalProductos.stream()
-                .collect(Collectors.toMap(Producto::getCodigo_producto, p -> p));
-
-        // Construir la lista de productos con cantidades
-        List<Producto> productosSeleccionados = new ArrayList<>();
-        double ventasTotales = 0.0;
-
-        for (ProductoCantidadDTO entrada : ventaDTO.getListaProductos()) {
-            Long idProducto = entrada.getCodigo_producto();
-            int cantidadSolicitada = entrada.getCantidad();
-
-            Producto producto = mapaProducto.get(idProducto);
-
-            if (producto == null) {
-                return ResponseEntity.badRequest().body("Error: No se encontró el producto con ID: " + idProducto);
-            }
-
-            double stockDisponible = producto.getCantidad_disponible() != null ? producto.getCantidad_disponible() : 0.0;
-
-            if (stockDisponible < cantidadSolicitada) {
-                return ResponseEntity.badRequest().body(
-                        "Error: Stock insuficiente. Producto: '" + producto.getNombre()
-                        + "'. Solicitado: " + cantidadSolicitada
-                        + ", Disponible: " + stockDisponible
-                );
-            }
-
-            // Agregar el producto tantas veces como fue solicitado
-            for (int i = 0; i < cantidadSolicitada; i++) {
-                productosSeleccionados.add(producto);
-                ventasTotales += producto.getCosto() != null ? producto.getCosto() : 0.0;
-            }
-        }
-
-        // Obtener cliente
-        Cliente client = clientServ.getClientes().stream()
-                .filter(c -> c.getId_cliente().equals(ventaDTO.getUnCliente().getId_cliente()))
-                .findFirst()
-                .orElse(null);
-
-        if (client == null) {
-            return ResponseEntity.badRequest().body("Error: Cliente no encontrado");
-        }
-
-        if (productosSeleccionados.isEmpty()) {
-            return ResponseEntity.badRequest().body("Error: No se seleccionaron productos válidos para la venta");
-        }
-
-        // Descontar stock y guardar productos actualizados
-        for (ProductoCantidadDTO entrada : ventaDTO.getListaProductos()) {
-            Producto producto = mapaProducto.get(entrada.getCodigo_producto());
-            double nuevoStock = producto.getCantidad_disponible() - entrada.getCantidad();
-            producto.setCantidad_disponible(nuevoStock);
-            produServ.saveProducto(producto);
-        }
-
-        // Crear y guardar la venta
-        Venta venta = new Venta();
-        venta.setFechaVenta(ventaDTO.getFecha_venta());
-        venta.setTotal(ventasTotales);
-        venta.setListaProductos(productosSeleccionados);
-        venta.setUnCliente(client);
-        ventaServ.saveVenta(venta);
-
-        return ResponseEntity.ok("La venta fue creada correctamente");
+    if (ventaDTO == null || ventaDTO.getListaProductos() == null || ventaDTO.getUnCliente() == null) {
+        return ResponseEntity.badRequest().body("Error: Datos de la venta incompletos.");
     }
+
+    List<Producto> totalProductos = produServ.getProductos();
+    Map<Long, Producto> mapaProducto = totalProductos.stream()
+            .collect(Collectors.toMap(Producto::getCodigo_producto, p -> p));
+
+    List<Producto> productosSeleccionados = new ArrayList<>();
+    double ventasTotales = 0.0;
+
+    for (ProductoCantidadDTO entrada : ventaDTO.getListaProductos()) {
+        if (entrada == null) {
+            return ResponseEntity.badRequest().body("Error: Producto nulo en la lista.");
+        }
+        Long idProducto = entrada.getCodigo_producto();
+        int cantidadSolicitada = entrada.getCantidad();
+
+        if (idProducto == null) {
+            return ResponseEntity.badRequest().body("Error: Producto con ID nulo.");
+        }
+        if (cantidadSolicitada <= 0) {
+            return ResponseEntity.badRequest().body("Error: Cantidad inválida para producto con ID: " + idProducto);
+        }
+
+        Producto producto = mapaProducto.get(idProducto);
+        if (producto == null) {
+            return ResponseEntity.badRequest().body("Error: No se encontró el producto con ID: " + idProducto);
+        }
+
+        double stockDisponible = producto.getCantidad_disponible() != null ? producto.getCantidad_disponible() : 0.0;
+
+        if (stockDisponible < cantidadSolicitada) {
+            return ResponseEntity.badRequest().body(
+                    "Error: Stock insuficiente. Producto: '" + producto.getNombre()
+                    + "'. Solicitado: " + cantidadSolicitada
+                    + ", Disponible: " + stockDisponible
+            );
+        }
+
+        for (int i = 0; i < cantidadSolicitada; i++) {
+            productosSeleccionados.add(producto);
+            ventasTotales += producto.getCosto() != null ? producto.getCosto() : 0.0;
+        }
+    }
+
+    Cliente client = clientServ.getClientes().stream()
+            .filter(c -> c.getId_cliente().equals(ventaDTO.getUnCliente().getId_cliente()))
+            .findFirst()
+            .orElse(null);
+
+    if (client == null) {
+        return ResponseEntity.badRequest().body("Error: Cliente no encontrado");
+    }
+
+    if (productosSeleccionados.isEmpty()) {
+        return ResponseEntity.badRequest().body("Error: No se seleccionaron productos válidos para la venta");
+    }
+
+    for (ProductoCantidadDTO entrada : ventaDTO.getListaProductos()) {
+        Producto producto = mapaProducto.get(entrada.getCodigo_producto());
+        double nuevoStock = producto.getCantidad_disponible() - entrada.getCantidad();
+        producto.setCantidad_disponible(nuevoStock);
+        produServ.saveProducto(producto);
+    }
+
+    Venta venta = new Venta();
+    venta.setFechaVenta(ventaDTO.getFecha_venta());
+    venta.setTotal(ventasTotales);
+    venta.setListaProductos(productosSeleccionados);
+    venta.setUnCliente(client);
+    ventaServ.saveVenta(venta);
+
+    return ResponseEntity.ok("La venta fue creada correctamente");
+}
 //ENDPOINT para obtener todas las ventas
 
     @GetMapping("/ventas")

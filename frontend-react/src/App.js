@@ -15,7 +15,7 @@ import ListadoVentas from "./venta/ListadoVentas";
 import AgregarVenta from "./venta/AgregarVenta";
 import EditarProductoFaltaStock from "./producto/EditarProductoFaltaStock";
 import EditarVenta from "./venta/EditarVenta";
-import TotalVentas from "./venta/TotalVentas";
+import VentasDelDia from "./venta/VentasDelDia";
 
 function App() {
   const [logueado, setLogueado] = useState(localStorage.getItem("autenticado") === "true");
@@ -114,10 +114,10 @@ function App() {
             }
           />
            <Route
-            path="/lista/venta/total"
+            path="/lista/venta/dia"
             element={
               //<RutaProtegida>
-              <TotalVentas />
+              <VentasDelDia />
               //</RutaProtegida>
             }
           />

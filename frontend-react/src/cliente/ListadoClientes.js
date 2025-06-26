@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
 
 export default function ListadoClientes() {
@@ -22,49 +23,64 @@ export default function ListadoClientes() {
     setClientes(resultado.data);
   }
   const eliminarClientes = async (id) => {
-    await axios.delete(`${urlBase}/${id}`);
-    cargarClientes();
-    alert("El cliente se eliminó el correctamente")
-  }
+    const confirmacion = window.confirm("¿Estás seguro de eliminar este cliente?");
+    if (confirmacion) {
+      try {
+        await axios.delete(`${urlBase}/${id}`);
+        cargarClientes();
+        alert("El cliente se eliminó correctamente");
+      } catch (error) {
+        console.error("Error al eliminar cliente:", error);
+        alert("No se pudo eliminar el cliente. Posiblemente tiene ventas asociadas.");
+      }
+    }
+  };
   return (
     <div className="container">
       <div className="container text-center " style={{ margin: "40px" }}>
-        <h4 className="text-dark">Listado de productos en stock</h4>
+        <h4 className="text-dark">Todos nuestros clientes</h4>
       </div>
-      <table className="table table-striped table-hover align-middle">
-        <thead className="table-dark fs-5">
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
-            <th scope="col">D.N.I</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody className='fs-5 fw-bolder'>
-          {
-            //Iteramos el arreglo de empleados
-            clientes.map((clientes, indice) => (
-              <tr key={indice}>
-                <th scope="row">{clientes.nombre}</th>
-                <td>{clientes.apellido}</td>
-                <td>{clientes.dni}</td>
-                <td></td>
-                <td className='text-center'>
-                  <div>
-                    <Link to={`/editar/cliente/${clientes.id_cliente}`}
-                      className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>
-                    <button onClick={() => eliminarClientes(clientes.id_cliente)} className='btn btn-dark btn-sm fs-5'>
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))
-          }
+      <div className="table-responsive" style={{ maxHeight: "750px", overflowY: "auto" }}>
+        <table className="table table-striped table-hover align-middle" style={{ minWidth: "1000px" }}>
+          <thead className="table-dark fs-5" style={{ position: "sticky", top: "0", zIndex: "10" }}>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Apellido</th>
+              <th scope="col">D.N.I</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody className='fs-5 fw-bolder'>
+            {
+              //Iteramos el arreglo de empleados
+              clientes.map((clientes, indice) => (
+                <tr key={indice}>
+                  <th scope="row">{clientes.nombre}</th>
+                  <td>{clientes.apellido}</td>
+                  <td> <NumericFormat
+                    value={clientes.dni}
+                    displayType="text"
+                    thousandSeparator="."
+                    decimalSeparator=","
+                  /></td>
+                  <td></td>
+                  <td className='text-center'>
+                    <div>
+                      <Link to={`/editar/cliente/${clientes.id_cliente}`}
+                        className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>
+                      <button onClick={() => eliminarClientes(clientes.id_cliente)} className='btn btn-dark btn-sm fs-5'>
+                        Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            }
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
 
   )

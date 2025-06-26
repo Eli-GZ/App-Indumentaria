@@ -1,5 +1,5 @@
 body {
-  background-image: url('../public/background.jpg'); /* <-- asegurate que esté en la carpeta `public/` */
+background-color: white;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

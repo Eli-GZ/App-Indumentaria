@@ -39,8 +39,9 @@ export default function ListadoProductos() {
       <div className="container text-center " style={{ margin: "40px" }}>
         <h4 className="text-dark">Faltante de stock</h4>
       </div>
-      <table className="table table-striped table-hover align-middle">
-        <thead className="table-dark fs-5">
+       <div className="table-responsive" style={{ maxHeight: "750px", overflowY: "auto" }}>
+        <table className="table table-striped table-hover align-middle" style={{ minWidth: "1000px" }}>
+          <thead className="table-dark fs-5" style={{ position: "sticky", top: "0", zIndex: "10" }}>
           <tr>
             <th scope="col">Nombre</th>
             <th scope="col">Talles</th>
@@ -58,8 +59,9 @@ export default function ListadoProductos() {
                 <td>{producto.talle}</td>
                 <td><NumericFormat value={producto.costo}
                   displayType='text'
-                  thousandSeparator="," prefix='$'
-                  decimalScale={2} fixedDecimalScale />
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  prefix="$" />
                 </td>
                 <td>{producto.cantidad_disponible}</td>
                 <td className='text-center'>
@@ -80,6 +82,6 @@ export default function ListadoProductos() {
       <div>
         {mensaje && <p style={{ color: "red" }}>{mensaje}</p>}</div>
     </div>
-
+</div>
   )
 }

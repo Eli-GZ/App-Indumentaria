@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function AgregarVenta() {
   const navegar = useNavigate();
 
-  // Estado principal de la venta
+  // Estado inicial vacío para agregar
   const [venta, setVenta] = useState({
     fechaVenta: "",
     unCliente: {},
@@ -16,84 +16,73 @@ export default function AgregarVenta() {
   const [clientesDisponibles, setClientesDisponibles] = useState([]);
   const [productosDisponibles, setProductosDisponibles] = useState([]);
 
-  // Cargar clientes disponibles al inicio
+  // Cargar clientes disponibles al montar
   useEffect(() => {
-    const cargarClientes = async () => {
-      const res = await axios.get("http://localhost:8080/app-venta/clientes");
-      setClientesDisponibles(res.data);
-    };
-    cargarClientes();
+    axios.get("http://localhost:8080/app-venta/clientes")
+      .then(res => setClientesDisponibles(res.data))
+      .catch(err => console.error("Error cargando clientes", err));
   }, []);
 
-  // Cargar productos disponibles al inicio
+  // Cargar productos disponibles al montar
   useEffect(() => {
-    const cargarProductos = async () => {
-      const res = await axios.get("http://localhost:8080/app-venta/productos");
-      setProductosDisponibles(res.data);
-    };
-    cargarProductos();
+    axios.get("http://localhost:8080/app-venta/productos")
+      .then(res => setProductosDisponibles(res.data))
+      .catch(err => console.error("Error cargando productos", err));
   }, []);
 
-  // Selección de cliente desde el select
+  // Cambio cliente seleccionado
   const onClienteChange = (e) => {
     const clienteSeleccionado = clientesDisponibles.find(
       c => c.id_cliente === parseInt(e.target.value)
     );
-    setVenta({ ...venta, unCliente: clienteSeleccionado });
+    setVenta({ ...venta, unCliente: clienteSeleccionado || {} });
   };
 
-  // Manejo de fecha u otros campos
+  // Cambio input fecha u otros campos
   const onInputChange = (e) => {
     setVenta({ ...venta, [e.target.name]: e.target.value });
   };
 
-  // Actualiza o elimina productos de la venta según cantidad
-  const actualizarCantidadProducto = (producto, cantidadStr) => {
-    let cantidad = parseInt(cantidadStr);
-    if (isNaN(cantidad) || cantidad < 0) cantidad = 0;
+  // Actualizar o agregar producto con cantidad
+  const actualizarCantidadProducto = (producto, nuevaCantidad) => {
+    const cantidad = parseInt(nuevaCantidad);
+    const cantidadFinal = isNaN(cantidad) || cantidad < 0 ? 0 : cantidad;
 
-    let nuevaLista;
+    const listaActualizada = venta.listaProductos.map(p => {
+      if (p.producto.codigo_producto === producto.codigo_producto) {
+        return { ...p, cantidad: cantidadFinal };
+      }
+      return p;
+    });
 
-    const index = venta.listaProductos.findIndex(
+    const yaExiste = venta.listaProductos.some(
       p => p.producto.codigo_producto === producto.codigo_producto
     );
-
-    if (cantidad === 0) {
-      // Eliminar producto si cantidad es 0
-      nuevaLista = venta.listaProductos.filter(
-        p => p.producto.codigo_producto !== producto.codigo_producto
-      );
-    } else if (index !== -1) {
-      // Actualizar cantidad producto existente
-      nuevaLista = [...venta.listaProductos];
-      nuevaLista[index].cantidad = cantidad;
-    } else {
-      // Agregar nuevo producto
-      nuevaLista = [...venta.listaProductos, { producto, cantidad }];
+    if (!yaExiste && cantidadFinal > 0) {
+      listaActualizada.push({ producto, cantidad: cantidadFinal });
     }
+
+    // Filtrar productos con cantidad > 0
+    const listaFiltrada = listaActualizada.filter(p => p.cantidad > 0);
+
+    // Calcular total
+    const totalNuevo = listaFiltrada.reduce((acc, item) => {
+      const costo = Number(item.producto?.costo || 0);
+      const cant = Number(item.cantidad || 0);
+      return acc + costo * cant;
+    }, 0);
 
     setVenta({
       ...venta,
-      listaProductos: nuevaLista
+      listaProductos: listaFiltrada,
+      total: totalNuevo
     });
-
-    console.log("listaProductos (debug): ", nuevaLista);
   };
 
-  // Calcula el total cada vez que cambia la lista de productos
-  useEffect(() => {
-    const totalCalculado = venta.listaProductos.reduce((acc, item) => {
-      const cant = Number(item.cantidad);
-      const costo = Number(item.producto.costo);
-      return acc + (isNaN(cant) || isNaN(costo) ? 0 : cant * costo);
-    }, 0);
-    setVenta(prev => ({ ...prev, total: totalCalculado }));
-  }, [venta.listaProductos]);
-
-  // Validación de formato de fecha
+  // Validar fecha yyyy-MM-dd
   const isFechaValida = (fecha) => /^\d{4}-\d{2}-\d{2}$/.test(fecha);
 
-  // Envío del formulario
+  // Enviar formulario POST para agregar
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -102,25 +91,43 @@ export default function AgregarVenta() {
       return;
     }
 
+    if (!venta.unCliente?.id_cliente) {
+      alert("Debe seleccionar un cliente.");
+      return;
+    }
+
+    const listaProductosParaEnviar = venta.listaProductos
+      .filter(p => p && p.producto && p.producto.codigo_producto != null && p.cantidad > 0)
+      .map(p => ({
+        codigo_producto: p.producto.codigo_producto,
+        cantidad: p.cantidad
+      }));
+
+    if (listaProductosParaEnviar.length === 0) {
+      alert("Debe seleccionar al menos un producto válido con cantidad mayor a 0.");
+      return;
+    }
+   
     const ventaAEnviar = {
       fecha_venta: venta.fechaVenta,
-      clienteId: venta.unCliente.id_cliente,
+      unCliente: { id_cliente: venta.unCliente.id_cliente },
       listaProductos: venta.listaProductos.map(p => ({
         codigo_producto: p.producto.codigo_producto,
         cantidad: p.cantidad
       })),
       total: venta.total
     };
-
+    console.log("Venta final:", JSON.stringify(ventaAEnviar, null, 2));
+    console.log("Venta a enviar:", ventaAEnviar);
     try {
       await axios.post("http://localhost:8080/app-venta/ventas", ventaAEnviar);
       navegar("/lista/venta");
     } catch (error) {
-      alert("No se pudo concretar la venta "+ error.response?.data);
-      console.error("Error al guardar la venta:", error.response?.data || error.message);
+      alert("No se pudo crear la venta: " + (error.response?.data || error.message));
+      console.error("Error:", error.response?.data || error.message);
     }
   };
-  // Renderizado
+
   return (
     <div className='container'>
       <div className='text-center' style={{ margin: "40px" }}>
@@ -129,10 +136,16 @@ export default function AgregarVenta() {
 
       <div className="row justify-content-center">
         <form className='col-md-6' onSubmit={onSubmit}>
-          {/* Select cliente */}
+
+          {/* Cliente */}
           <div className="mb-3">
             <label className="form-label text-dark fs-5">Cliente</label>
-            <select className="form-select border-dark" required onChange={onClienteChange}>
+            <select
+              className="form-select border-dark"
+              required
+              value={venta.unCliente?.id_cliente || ""}
+              onChange={onClienteChange}
+            >
               <option value="">Seleccione un cliente</option>
               {clientesDisponibles.map(cliente => (
                 <option key={cliente.id_cliente} value={cliente.id_cliente}>
@@ -142,7 +155,7 @@ export default function AgregarVenta() {
             </select>
           </div>
 
-          {/* Input fecha */}
+          {/* Fecha */}
           <div className="mb-3">
             <label className="form-label text-dark fs-5">Fecha</label>
             <input
@@ -150,12 +163,12 @@ export default function AgregarVenta() {
               className="form-control border-dark"
               name="fechaVenta"
               required
-              value={venta.fechaVenta}
+              value={venta.fechaVenta || ""}
               onChange={onInputChange}
             />
           </div>
 
-          {/* Lista de productos con input de cantidad */}
+          {/* Productos */}
           <div className="mb-3">
             <label className="form-label text-dark fs-5">Seleccionar Productos</label>
             <div className="border p-3 rounded" style={{ maxHeight: "200px", overflowY: "scroll" }}>
@@ -164,7 +177,6 @@ export default function AgregarVenta() {
                   p => p.producto.codigo_producto === producto.codigo_producto
                 );
                 const cantidad = productoEnVenta ? productoEnVenta.cantidad : 0;
-
                 return (
                   <div key={producto.codigo_producto} className="d-flex align-items-center mb-2">
                     <div style={{ flexGrow: 1 }}>
@@ -173,7 +185,7 @@ export default function AgregarVenta() {
                     <input
                       type="number"
                       min={0}
-                      value={cantidad.toString()}
+                      value={cantidad === 0 ? "" : cantidad}
                       onChange={(e) => actualizarCantidadProducto(producto, e.target.value)}
                       style={{ width: "60px", marginLeft: "10px" }}
                     />
@@ -198,7 +210,7 @@ export default function AgregarVenta() {
           {/* Botones */}
           <div className='text-center'>
             <button type="submit" className="btn btn-primary me-3 fs-4">Agregar</button>
-            <Link to='/lista/venta' className='btn btn-dark fs-4'>Regresar</Link>
+            <Link to='/lista/venta' className='btn btn-dark fs-4'>Cancelar</Link>
           </div>
         </form>
       </div>
