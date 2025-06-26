@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
 
-export default function ListadoVentas() {
+export default function TotalVentas() {
   //URL del back-end
   const urlBase = "http://localhost:8080/app-venta/ventas";
 
@@ -31,7 +31,7 @@ export default function ListadoVentas() {
   return (
     <div className="container">
       <div className="container text-center " style={{ margin: "40px" }}>
-        <h4 className="text-dark">Lista de ventas</h4>
+        <h4 className="text-dark">Total venta del dia</h4>
       </div>
       <table className="table table-striped table-hover align-middle">
         <thead className="table-dark fs-5">
@@ -85,6 +85,21 @@ export default function ListadoVentas() {
             ))
           }
         </tbody>
+          <tfoot>
+                   <tr>
+                    <th scope="col">Total de ventas del dia</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <td><NumericFormat value={ventas.total}
+                          displayType='text'
+                          thousandSeparator="`.`" prefix='$'
+                          fixedDecimalScale /></td>
+                  </tr>
+                </tfoot>
+                
       </table>
     </div>
 

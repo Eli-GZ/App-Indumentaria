@@ -15,6 +15,7 @@ import ListadoVentas from "./venta/ListadoVentas";
 import AgregarVenta from "./venta/AgregarVenta";
 import EditarProductoFaltaStock from "./producto/EditarProductoFaltaStock";
 import EditarVenta from "./venta/EditarVenta";
+import TotalVentas from "./venta/TotalVentas";
 
 function App() {
   const [logueado, setLogueado] = useState(localStorage.getItem("autenticado") === "true");
@@ -109,6 +110,14 @@ function App() {
             element={
               //<RutaProtegida>
               <EditarVenta />
+              //</RutaProtegida>
+            }
+          />
+           <Route
+            path="/lista/venta/total"
+            element={
+              //<RutaProtegida>
+              <TotalVentas />
               //</RutaProtegida>
             }
           />
