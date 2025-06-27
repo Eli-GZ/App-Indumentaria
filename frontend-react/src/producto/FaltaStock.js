@@ -35,7 +35,7 @@ export default function ListadoProductos() {
     alert("El producto se eliminó el correctamente")
   }
   return (
-    <div className="container">
+    <div className="container contenido-principal">
       <div className="container text-center " style={{ margin: "40px" }}>
         <h4 className="text-dark">Faltante de stock</h4>
       </div>

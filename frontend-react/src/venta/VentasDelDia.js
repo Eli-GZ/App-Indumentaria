@@ -40,8 +40,8 @@ export default function VentasDelDia() {
 
 
   return (
-    <div className="container">
-      <div className="container text-center" style={{ marginTop: "40px", marginBottom: "40px" }}>
+    <div className="container contenido-principal">
+      <div className="container text-center">
         <h4 className="text-dark">Ventas del Día</h4>
         {/* Dropdown de fechas */}
         <div className="">
@@ -65,7 +65,7 @@ export default function VentasDelDia() {
       </div>
 
       {/* Tabla */}
-      <div className="table-responsive" style={{ height: "70vh", overflowY: "auto" }}>
+      <div className="table-responsive" style={{ maxHeight: "68vh", overflowY: "auto" }}>
         <table className="table table-striped table-hover align-middle">
           <thead className="table-dark fs-5" style={{ position: "sticky", top: "0", zIndex: "10" }}>
             <tr>

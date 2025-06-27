@@ -156,7 +156,7 @@ export default function EditarVenta() {
 
   // Render del formulario para editar la venta
   return (
-    <div className='container'>
+    <div className='container contenido-principal'>
       <div className='text-center' style={{ margin: "40px" }}>
         <h3 className='text-dark'>Editar Venta</h3>
       </div>

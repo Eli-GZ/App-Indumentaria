@@ -28,7 +28,7 @@ export default function AgregarProducto() {
   }
 
   return (
-    <div className='container'>
+    <div className='container contenido-principal'>
       <div className='containeer text-center' style={{ margin: "40px" }}>
         <h3 className='text-dark'>Agregar Producto</h3>
       </div>

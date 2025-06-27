@@ -44,7 +44,7 @@ export default function EditarCliente() {
 
   return (
 
-    <div className='container'>
+    <div className='container contenido-principal'>
       <div className='containeer text-center' style={{ margin: "30px" }}>
         <h3>Editar Empleado</h3>
       </div>

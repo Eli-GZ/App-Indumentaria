@@ -27,7 +27,7 @@ export default function AgregarCliente() {
   }
 
   return (
-    <div className='container'>
+    <div className='container contenido-principal'>
       <div className='containeer text-center' style={{ margin: "40px" }}>
         <h3 className='text-dark'>Agregar Cliente</h3>
       </div>

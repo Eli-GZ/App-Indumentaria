@@ -44,8 +44,7 @@ export default function EditarProductoFaltaStock() {
   }
 
   return (
-
-    <div className='container'>
+    <div className='container contenido-principal'>
       <div className='containeer text-center' style={{ margin: "30px" }}>
         <h3>Editar Producto</h3>
       </div>

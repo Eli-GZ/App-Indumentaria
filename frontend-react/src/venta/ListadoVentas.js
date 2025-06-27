@@ -36,14 +36,14 @@ export default function ListadoVentas() {
     }
   }
 
-  return (
-    <div className="container">
-      <div className="container text-center" style={{ margin: "40px" }}>
+  return (    
+    <div className="container contenido-principal">
+      <div className="container text-center" style={{ marginBottom: "30px"  }}>
         <h4 className="text-dark">Lista de ventas</h4>
       </div>
 
       {/* Scroll vertical con encabezado sticky */}
-      <div className="table-responsive" style={{ maxHeight: "750px", overflowY: "auto" }}>
+      <div className="table-responsive" style={{ maxHeight: "80vh", overflowY: "auto"}}>
         <table className="table table-striped table-hover align-middle" style={{ minWidth: "1000px" }}>
           <thead className="table-dark fs-5" style={{ position: "sticky", top: "0", zIndex: "10" }}>
             <tr>
