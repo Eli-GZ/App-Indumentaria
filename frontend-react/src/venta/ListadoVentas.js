@@ -45,7 +45,7 @@ export default function ListadoVentas() {
       </div>
 
       {/* Scroll vertical con encabezado sticky */}
-      <div className="table-responsive" style={{ maxHeight: "80vh", overflowY: "auto"}}>
+      <div className="table-responsive" style={{ maxHeight: "78vh", overflowY: "auto"}}>
         <table className="table table-striped table-hover align-middle" style={{ minWidth: "1000px" }}>
           <thead className="table-dark fs-5" style={{ position: "sticky", top: "0", zIndex: "10" }}>
             <tr>

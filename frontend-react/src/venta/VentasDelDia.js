@@ -127,7 +127,7 @@ export default function VentasDelDia() {
           borderTop: "2px solid #dee2e6"
         }}
       >
-        <span style={{ marginRight: "96.5vh" }}>Total de ventas del día:</span>
+        <span style={{ marginRight: "2vh"}} className=''>Total de ventas del día:</span>
         <NumericFormat
           value={ventasFiltradas.reduce((acc, v) => acc + v.total, 0)}
           displayType="text"
