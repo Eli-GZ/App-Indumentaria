@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
+import edit from "../assets/edit-icon.png"
+import borrar from "../assets/borrar-icon.png"
 
 export default function ListadoVentas() {
   const urlBase = "http://localhost:8080/app-venta/ventas";
@@ -39,7 +41,7 @@ export default function ListadoVentas() {
   return (    
     <div className="container contenido-principal">
       <div className="container text-center" style={{ marginBottom: "30px"  }}>
-        <h4 className="text-dark">Lista de ventas</h4>
+        <h4 className="text-dark">Todas las ventas</h4>
       </div>
 
       {/* Scroll vertical con encabezado sticky */}
@@ -87,14 +89,13 @@ export default function ListadoVentas() {
                 </td>
                 <td></td>
                 <td className="text-center">
-                  <Link to={`/editar/venta/${ventas.codigo_venta}`} className="btn btn-primary btn-sm me-3 fs-5">
-                    Editar
+                  <Link to={`/editar/venta/${ventas.codigo_venta}`} className="btn btn-light btn-sm me-3 fs-5 border-dark">
+                   <img src={edit}alt=''></img>
                   </Link>
                   <button
                     onClick={() => eliminarVenta(ventas.codigo_venta)}
-                    className="btn btn-dark btn-sm fs-5"
-                  >
-                    Eliminar
+                    className="btn btn-light btn-sm fs-5 border-dark">
+                    <img src={borrar}alt=''></img>
                   </button>
                 </td>
               </tr>

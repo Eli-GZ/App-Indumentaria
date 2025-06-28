@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
+import back from "../assets/cancelar-icon.png"
+import save from "../assets/save-icon.png"
 
 export default function EditarProducto() {
 
@@ -72,8 +73,8 @@ export default function EditarProducto() {
               required={true} value={cantidad_disponible} onChange={(e) => onInputChange(e)} />
           </div>
           <div className='text-center'>
-            <button type="submit" className="btn btn-primary me-3">Guardar</button>
-            <Link to='/lista/producto' className='btn btn-dark'>Regresar</Link>
+            <button type="submit" className="btn btn-light me-3 border-dark"><img src={save}alt=''></img></button>
+            <Link to='/lista/producto' className='btn btn-light border-dark'><img src={back}alt=''></img></Link>
           </div>
         </form>
       </div>

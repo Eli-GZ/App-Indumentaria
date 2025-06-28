@@ -1,20 +1,30 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import back from "../assets/cancelar-icon.png"
+import save from "../assets/save-icon.png"
 
 export default function AgregarVenta() {
   const navegar = useNavigate();
 
-  // Estado inicial vacío para agregar
+
+  const [clientesDisponibles, setClientesDisponibles] = useState([]);
+  const [productosDisponibles, setProductosDisponibles] = useState([]);
+  
+  const obtenerFechaActual = () => {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoy.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
   const [venta, setVenta] = useState({
-    fechaVenta: "",
+    fechaVenta: obtenerFechaActual(),
     unCliente: {},
     listaProductos: [],
     total: 0
   });
-
-  const [clientesDisponibles, setClientesDisponibles] = useState([]);
-  const [productosDisponibles, setProductosDisponibles] = useState([]);
 
   // Cargar clientes disponibles al montar
   useEffect(() => {
@@ -162,6 +172,7 @@ export default function AgregarVenta() {
               type="date"
               className="form-control border-dark"
               name="fechaVenta"
+              placeholder=''
               required
               value={venta.fechaVenta || ""}
               onChange={onInputChange}
@@ -209,8 +220,8 @@ export default function AgregarVenta() {
 
           {/* Botones */}
           <div className='text-center'>
-            <button type="submit" className="btn btn-primary me-3 fs-4">Agregar</button>
-            <Link to='/lista/venta' className='btn btn-dark fs-4'>Cancelar</Link>
+            <button type="submit" className="btn btn-light me-3 border-dark"><img src={save}alt=''></img></button>
+            <Link to='/lista/venta' className='btn btn-light border-dark'><img src={back}alt=''></img></Link>
           </div>
         </form>
       </div>

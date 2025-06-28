@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
+import edit from "../assets/edit-icon.png"
+import borrar from "../assets/borrar-icon.png"
 
 export default function ListadoClientes() {
   //URL del back-end
@@ -22,6 +24,7 @@ export default function ListadoClientes() {
     console.log(resultado.data);
     setClientes(resultado.data);
   }
+
   const eliminarClientes = async (id) => {
     const confirmacion = window.confirm("¿Estás seguro de eliminar este cliente?");
     if (confirmacion) {
@@ -35,6 +38,7 @@ export default function ListadoClientes() {
       }
     }
   };
+
   return (
     <div className="container contenido-principal">
       <div className="container text-center " style={{ margin: "40px" }}>
@@ -67,11 +71,15 @@ export default function ListadoClientes() {
                   <td></td>
                   <td className='text-center'>
                     <div>
-                      <Link to={`/editar/cliente/${clientes.id_cliente}`}
-                        className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>
-                      <button onClick={() => eliminarClientes(clientes.id_cliente)} className='btn btn-dark btn-sm fs-5'>
-                        Eliminar
-                      </button>
+                      {
+                        clientes.id_cliente !== 1 && (
+                          <Link to={`/editar/cliente/${clientes.id_cliente}`} className='btn btn-light btn-sm me-3 fs-5 border-dark'><img src={edit}alt=''></img></Link>
+                        )}
+                      {clientes.id_cliente !== 1 && (
+                        <button onClick={() => eliminarClientes(clientes.id_cliente)} className='btn btn-light btn-sm fs-5 border-dark'>
+                          <img src={borrar}alt=''></img>
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

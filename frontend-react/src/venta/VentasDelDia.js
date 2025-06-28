@@ -42,13 +42,13 @@ export default function VentasDelDia() {
   return (
     <div className="container contenido-principal">
       <div className="container text-center">
-        <h4 className="text-dark">Ventas del Día</h4>
+        <h4 className="text-dark fs-4">Ventas del Día</h4>
         {/* Dropdown de fechas */}
         <div className="">
           <label htmlFor="filtroFecha" className="form-label fw-bold">Seleccionar fecha:</label>
           <select
             id="filtroFecha"
-            className="form-select text-center fw-bold border-dark"
+            className="form-select fw-bold border-light mb-4 bg-dark text-light"          
             value={fechaSeleccionada}
             onChange={(e) => setFechaSeleccionada(e.target.value)}>
             {fechasUnicas.map((fecha, i) => {
@@ -127,7 +127,7 @@ export default function VentasDelDia() {
           borderTop: "2px solid #dee2e6"
         }}
       >
-        <span style={{ marginRight: "91vh" }}>Total de ventas del día:</span>
+        <span style={{ marginRight: "96.5vh" }}>Total de ventas del día:</span>
         <NumericFormat
           value={ventasFiltradas.reduce((acc, v) => acc + v.total, 0)}
           displayType="text"

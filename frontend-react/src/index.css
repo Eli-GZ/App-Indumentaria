@@ -1,5 +1,5 @@
 body {
-background-color: white;
+background-image: url(../src/assets/background.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -15,6 +15,6 @@ background-color: white;
 }
 
 .nav-text{
-  background-color: pink;
+  background-color: rgb(255, 208, 216);
   color: black;
 }

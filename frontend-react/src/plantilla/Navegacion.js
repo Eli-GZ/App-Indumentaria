@@ -78,7 +78,7 @@ export default function Navegacion({ logueado, setLogueado }) {
 
 
               <li className="nav-item mt-4">
-                <button className="btn btn-light w-100 border-dark" onClick={cerrarSesion}>
+                <button className="btn btn-dark w-100 border-dark" onClick={cerrarSesion}>
                   Cerrar sesión
                 </button>
               </li>

@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
+import edit from "../assets/edit-icon.png"
+import borrar from "../assets/borrar-icon.png"
 
 export default function ListadoProductos() {
   //URL del back-end
@@ -37,7 +39,7 @@ export default function ListadoProductos() {
   }
   return (
     <div className="container contenido-principal">
-      <div className="container text-center " style={{ marginBottom: "30px" }}>
+      <div className="container text-center" style={{ marginBottom: "30px" }}>
         <h4 className="text-dark">Listado de productos en stock</h4>
       </div>
       <div className="table-responsive" style={{  maxHeight: "80vh", overflowY: "auto" }}>
@@ -68,9 +70,9 @@ export default function ListadoProductos() {
                   <td className='text-center'>
                     <div>
                       <Link to={`/editar/producto/${producto.codigo_producto}`}
-                        className='btn btn-primary btn-sm me-3 fs-5'>Editar</Link>
-                      <button onClick={() => eliminarProductos(producto.codigo_producto)} className='btn btn-dark btn-sm fs-5'>
-                        Eliminar
+                        className='btn btn-light btn-sm me-3 fs-5 border-dark'><img src={edit}alt=''></img></Link>
+                      <button onClick={() => eliminarProductos(producto.codigo_producto)} className='btn btn-light btn-sm fs-5 border-dark'>                         
+                        <img src={borrar}alt=''></img>
                       </button>
                     </div>
                   </td>

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import back from "../assets/cancelar-icon.png"
+import save from "../assets/save-icon.png"
 
 export default function AgregarProducto() {
   let navegacion = useNavigate();
@@ -56,8 +58,8 @@ export default function AgregarProducto() {
               required={true} value={cantidad_disponible} onChange={(e) => onInputChange(e)} />
           </div>
           <div className='text-center'>
-            <button type="submit" className="btn btn-primary me-3 fs-4">Agregar</button>
-            <Link to='/lista/producto' className='btn btn-dark fs-4'>Regresar</Link>
+            <button type="submit" className="btn btn-light me-3 border-dark"><img src={save}alt=''></img></button>
+            <Link to='/lista/producto' className='btn btn-light border-dark'><img src={back}alt=''></img></Link>
           </div>
         </form>
       </div>
