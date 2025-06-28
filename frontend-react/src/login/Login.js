@@ -25,11 +25,14 @@ const Login = ({ setLogueado }) => {
   };
 
   return (
-    <div className='mx-auto mt-5 '>
-      <h1 className='text-center text-light'>Inicio de sesión</h1>
-      <form onSubmit={handleLogin}>
-        <div className="mb-3">
-          <label htmlFor="usuario" className="form-label text-light fs-5">Usuario</label>
+    <div className='contenido-principal d-flex row justify-content-center'>
+       <div className='text-center' style={{ marginBottom: "20px",marginTop:"30px" }}>
+        <h3 className='text-dark fs-3'>Inicio de Sesión</h3>
+      </div>
+
+      <form onSubmit={handleLogin}  className='col-md-3 '>
+        <div className="mb-3 text-center">
+          <label htmlFor="usuario" className="form-label text-dark fs-5">Usuario:</label>
           <input
             type="text"
             className="form-control border-dark"
@@ -40,8 +43,8 @@ const Login = ({ setLogueado }) => {
           />
         </div>
 
-        <div className="mb-3">
-          <label htmlFor="contrasena" className="form-label text-light fs-5">Contraseña</label>
+        <div className="mb-3 text-center">
+          <label htmlFor="contrasena" className="form-label text-dark fs-5">Contraseña:</label>
           <input
             type="password"
             className="form-control border-dark"
@@ -54,7 +57,7 @@ const Login = ({ setLogueado }) => {
 
         {error && <div className="alert alert-danger">{error}</div>}
 
-        <button type="submit" className='btn btn-primary fs-4 w-100'>Ingresar</button>
+        <button type="submit" className='btn btn-dark fs-4 w-100'>Ingresar</button>
       </form>
     </div>
   );

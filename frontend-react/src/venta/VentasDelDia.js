@@ -42,7 +42,7 @@ export default function VentasDelDia() {
   return (
     <div className="container contenido-principal">
       <div className="container text-center">
-        <h4 className="text-dark fs-4">Ventas del Día</h4>
+        <h4 className="text-dark fs-3">Ventas del Día</h4>
         {/* Dropdown de fechas */}
         <div className="">
           <label htmlFor="filtroFecha" className="form-label fw-bold">Seleccionar fecha:</label>

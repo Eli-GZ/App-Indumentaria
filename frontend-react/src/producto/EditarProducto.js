@@ -47,8 +47,8 @@ export default function EditarProducto() {
   return (
 
     <div className='container contenido-principal'>
-      <div className='containeer text-center' style={{ margin: "30px" }}>
-        <h3>Editar Producto</h3>
+      <div className='containeer text-center' style={{ marginBottom: "30px" }}>
+        <h3 className="fs-3">Editar Producto</h3>
       </div>
       <div className="row justify-content-center">
         <form className='col-md-6' onSubmit={(e) => onSubmit(e)}>

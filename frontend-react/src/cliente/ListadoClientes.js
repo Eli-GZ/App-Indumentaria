@@ -41,8 +41,8 @@ export default function ListadoClientes() {
 
   return (
     <div className="container contenido-principal">
-      <div className="container text-center " style={{ margin: "40px" }}>
-        <h4 className="text-dark">Todos nuestros clientes</h4>
+      <div className="container text-center " style={{ marginBottom: "30px" }}>
+        <h4 className="text-dark fs-3">Nuestros clientes</h4>
       </div>
       <div className="table-responsive" style={{ maxHeight: "80vh", overflowY: "auto" }}>
         <table className="table table-striped table-hover align-middle" style={{ minWidth: "1000px" }}>

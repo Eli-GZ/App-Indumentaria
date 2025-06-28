@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
 import edit from "../assets/edit-icon.png"
-import borrar from "../assets/borrar-icon.png"
+
 
 export default function ListadoProductos() {
   //URL del back-end
@@ -32,15 +32,11 @@ export default function ListadoProductos() {
     console.log(datos);
   }
 
-  const eliminarProductos = async (id) => {
-    await axios.delete(`${urlBase}/${id}`);
-    cargarProductos();
-    alert("El producto se eliminó el correctamente")
-  }
+ 
   return (
     <div className="container contenido-principal">
       <div className="container text-center" style={{ marginBottom: "30px" }}>
-        <h4 className="text-dark">Faltante de stock</h4>
+        <h4 className="text-dark fs-3">Faltante de stock</h4>
       </div>
        <div className="table-responsive" style={{ maxHeight: "750px", overflowY: "auto" }}>
         <table className="table table-striped table-hover align-middle" style={{ minWidth: "1000px" }}>

@@ -40,7 +40,7 @@ export default function ListadoProductos() {
   return (
     <div className="container contenido-principal">
       <div className="container text-center" style={{ marginBottom: "30px" }}>
-        <h4 className="text-dark">Listado de productos en stock</h4>
+        <h4 className="text-dark fs-3">Listado de productos en stock</h4>
       </div>
       <div className="table-responsive" style={{  maxHeight: "80vh", overflowY: "auto" }}>
         <table className="table table-striped table-hover align-middle" style={{ minWidth: "1000px" }}>

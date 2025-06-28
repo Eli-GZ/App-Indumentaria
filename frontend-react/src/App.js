@@ -32,97 +32,97 @@ function App() {
             <Route
               path="/lista/producto"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <ListadoProductos />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/agregar/producto"
               element={
-                // <RutaProtegida>
+                 <RutaProtegida>
                 <AgregarProducto />
-                // </RutaProtegida>
+                 </RutaProtegida>
               }
             />
             <Route
               path="/lista/producto/falta_stock"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <FaltaStock />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/editar/producto/falta_stock/:codigo_producto"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <EditarProductoFaltaStock />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/editar/producto/:codigo_producto"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <EditarProducto />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/lista/cliente"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <ListadoClientes />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/agregar/cliente"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <AgregarCliente />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/editar/cliente/:id_cliente"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <EditarCliente />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/lista/venta"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <ListadoVentas />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/agregar/venta"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <AgregarVenta />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/editar/venta/:codigo_venta"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <EditarVenta />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
             <Route
               path="/lista/venta/dia"
               element={
-                //<RutaProtegida>
+                <RutaProtegida>
                 <VentasDelDia />
-                //</RutaProtegida>
+                </RutaProtegida>
               }
             />
           </Routes>

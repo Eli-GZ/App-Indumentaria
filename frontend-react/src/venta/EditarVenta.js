@@ -158,15 +158,15 @@ export default function EditarVenta() {
   // Render del formulario para editar la venta
   return (
     <div className='container contenido-principal'>
-      <div className='text-center' style={{ margin: "40px" }}>
-        <h3 className='text-dark'>Editar Venta</h3>
+      <div className='text-center' style={{ marginBottom: "30px" }}>
+        <h3 className='text-dark fs-3'>Editar Venta</h3>
       </div>
 
       <div className="row justify-content-center">
         <form className='col-md-6' onSubmit={onSubmit}>
 
           {/* Campo para seleccionar el cliente */}
-          <div className="mb-3">
+          <div className="mb-3 ">
             <label className="form-label text-dark fs-5">Cliente</label>
             <select
               className="form-select border-dark"

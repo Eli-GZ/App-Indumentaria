@@ -41,7 +41,7 @@ export default function ListadoVentas() {
   return (    
     <div className="container contenido-principal">
       <div className="container text-center" style={{ marginBottom: "30px"  }}>
-        <h4 className="text-dark">Todas las ventas</h4>
+        <h4 className="text-dark fs-3">Todas las ventas</h4>
       </div>
 
       {/* Scroll vertical con encabezado sticky */}

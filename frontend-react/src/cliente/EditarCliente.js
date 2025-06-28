@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
+import back from "../assets/cancelar-icon.png"
+import save from "../assets/save-icon.png"
 
 export default function EditarCliente() {
 
@@ -45,8 +46,8 @@ export default function EditarCliente() {
   return (
 
     <div className='container contenido-principal'>
-      <div className='containeer text-center' style={{ margin: "30px" }}>
-        <h3>Editar Empleado</h3>
+      <div className='containeer text-center' style={{ marginBottom: "30px" }}>
+        <h3 className="fs-3">Editar Cliente</h3>
       </div>
       <div className="row justify-content-center">
         <form className='col-md-6' onSubmit={(e) => onSubmit(e)}>
@@ -68,8 +69,8 @@ export default function EditarCliente() {
         
         
           <div className='text-center'>
-            <button type="submit" className="btn btn-primary me-3">Guardar</button>
-            <Link to='/lista/cliente' className='btn btn-dark'>Regresar</Link>
+            <button type="submit" className="btn btn-light me-3 border-dark"><img src={save}alt=''></img></button>
+            <Link to='/lista/cliente' className='btn btn-light border-dark'><img src={back}alt=''></img></Link>
           </div>
         </form>
       </div>

@@ -141,7 +141,7 @@ export default function AgregarVenta() {
   return (
     <div className='container contenido-principal'>
       <div className='text-center' style={{ marginBottom: "30px" }}>
-        <h3 className='text-dark fs-4'>Agregar Nueva Venta</h3>
+        <h3 className='text-dark fs-3'>Agregar Nueva Venta</h3>
       </div>
 
       <div className="row justify-content-center">
