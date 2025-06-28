@@ -55,9 +55,10 @@ const Login = ({ setLogueado }) => {
           />
         </div>
 
-        {error && <div className="alert alert-danger">{error}</div>}
-
         <button type="submit" className='btn btn-dark fs-4 w-100'>Ingresar</button>
+        
+        {error && <div className="alert alert-warning mt-3 border-dark">{error}</div>}
+        
       </form>
     </div>
   );

@@ -33,7 +33,7 @@ export default function Navegacion({ logueado, setLogueado }) {
               </div>
     <hr className='m-0'></hr>
               <li className="nav-item">
-                <Link className="nav-link text-dark fs-6 ms-3" to="/lista/venta/dia">Ventas del dia</Link>
+                <Link className="nav-link text-dark fs-6 ms-3" to="/inicio">Ventas del dia</Link>
               </li>
      <hr className='m-0 mt-2'></hr>
                <div className="text-start d-flex">

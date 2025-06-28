@@ -118,7 +118,7 @@ function App() {
               }
             />
             <Route
-              path="/lista/venta/dia"
+              path="/inicio"
               element={
                 <RutaProtegida>
                 <VentasDelDia />
